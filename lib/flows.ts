@@ -59,6 +59,7 @@ export async function verifyJob(jobId: string): Promise<Job> {
     job.checkInLat = job.lat + 0.0005;
     job.checkInLng = job.lng - 0.0004;
     job.completedAt = new Date(now).toISOString();
+    job.demoClock = true;
   }
   job.status = 'submitted';
 

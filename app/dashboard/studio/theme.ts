@@ -1,11 +1,11 @@
-// AG Studio theme for the PayPal dashboard. Every value points at a design token from
+// AG Studio theme for the Payday dashboard. Every value points at a design token from
 // app/globals.css, the same variables the shell's Tailwind classes use, so Studio renders as
 // part of the page rather than a component embedded in it: change a token there and the shell,
 // widgets, grids and charts all follow.
 
 import { studioTheme } from 'ag-studio';
 
-const token = (name: string) => `var(--pp-${name})`;
+const token = (name: string) => `var(--pd-${name})`;
 const line = (color: string) => ({ width: 1, color: token(color) });
 
 const palette = Object.fromEntries(
@@ -15,7 +15,7 @@ const palette = Object.fromEntries(
   ]).flat(),
 );
 
-export const agStudioPayPalTheme = studioTheme.withParams({
+export const paydayStudioTheme = studioTheme.withParams({
   // Shared by Studio's UI, grids and charts.
   fontFamily: token('font'),
   fontSize: 14,
@@ -24,8 +24,8 @@ export const agStudioPayPalTheme = studioTheme.withParams({
   subtleTextColor: token('muted'),
   backgroundColor: token('surface'),
   borderColor: token('border'),
-  accentColor: token('blue'),
-  iconColor: token('navy'),
+  accentColor: token('teal'),
+  iconColor: token('ink'),
   rowHoverColor: token('highlight'),
 
   // No frame: the canvas is the page's own background. Each widget is inset 12px inside its
@@ -51,30 +51,30 @@ export const agStudioPayPalTheme = studioTheme.withParams({
   studioWidgetTitleFontFamily: token('font'),
   studioWidgetTitleFontSize: 16,
   studioWidgetTitleFontWeight: 600,
-  studioWidgetTitleTextColor: token('navy'),
+  studioWidgetTitleTextColor: token('ink'),
   studioWidgetSubtitleFontFamily: token('font'),
   studioWidgetSubtitleFontSize: 13,
   studioWidgetSubtitleTextColor: token('muted'),
   studioWidgetCaptionFontFamily: token('font'),
   studioWidgetCaptionFontSize: 13,
   studioWidgetCaptionTextColor: token('muted'),
-  studioWidgetResizeBorderColor: token('blue'),
+  studioWidgetResizeBorderColor: token('teal'),
 
   // Edit-mode panels read as more of the sidebar.
   studioPanelContainerBackgroundColor: token('surface'),
   studioPanelContainerBorder: line('border'),
   studioPanelContainerBorderRadius: 0,
   studioPanelDividerColor: token('border'),
-  studioPanelDividerActiveColor: token('blue'),
+  studioPanelDividerActiveColor: token('teal'),
   studioPanelSectionBorderColor: token('border'),
   studioPanelHeaderFontFamily: token('font'),
   studioPanelHeaderFontWeight: 600,
   studioPanelChevronButtonHoverBackgroundColor: token('highlight'),
-  studioPanelChevronButtonHoverColor: token('blue'),
+  studioPanelChevronButtonHoverColor: token('teal'),
   // Selected toggles match the sidebar's selected item: highlight fill, blue text and edge.
   studioToggleButtonActiveBackgroundColor: token('highlight'),
-  studioToggleButtonActiveBorderColor: token('blue'),
-  studioToggleButtonActiveColor: token('blue'),
+  studioToggleButtonActiveBorderColor: token('teal'),
+  studioToggleButtonActiveColor: token('teal'),
 
   // Grid widgets: muted semibold headers, light dividers, roomy rows.
   gridFontFamily: token('font'),

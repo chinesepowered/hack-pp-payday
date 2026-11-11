@@ -53,6 +53,7 @@ export type Job = {
   verification?: Verification;
   source: Source;
   orderId?: string;
+  demoClock?: boolean; // check-in and completion were stamped by the demo at submit time
 };
 
 export type PayoutStatus =

@@ -1,332 +1,206 @@
 'use client';
 
-// The dashboard: the PayPal shell (./components) wrapped around a single AG Studio instance, which
-// this file renders. Studio's configuration (data sources, theme, default report, AI) lives in
-// ./studio. The shell owns saved reports, page names and navigation; Studio owns
-// the report being edited. They meet in two places:
-//   - the shell drives Studio through its AgStudioApi (setState, getState, undo, redo)
-//   - Studio reports every change back through onStateUpdated, which only redraws the shell
-//
-// Nothing tracks edits as they happen. Save reads the report from Studio with getState(), and
-// leaving a report compares Studio's state with the saved one there and then.
+// The operator's live payouts dashboard: one AG Studio instance inside the Payday shell. Studio's
+// configuration (data sources, theme, report pages, custom widgets, the auditor agent) lives in
+// ./studio. The shell owns the layout presets, edit mode and saving; Studio owns the report.
 
-import { useMemo, useRef, useState, useSyncExternalStore } from 'react';
-import {
-  AgStudioAiModule,
-  enableStudioDevValidations,
-  type AgReportState,
-  type AgStudioApi,
-  type AgStudioMode,
-} from 'ag-studio';
+import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react';
+import { AgStudioAiModule, enableStudioDevValidations, type AgReportState, type AgStudioApi, type AgStudioMode } from 'ag-studio';
 import { AgStudio, AgStudioProvider } from 'ag-studio-react';
-import type { DashboardData } from '@/lib/dashboard-data';
-import { AppShell } from './components/app-shell';
-import {
-  CreateReportDialog,
-  DeleteReportDialog,
-  ResetDemoDialog,
-  UnsavedChangesDialog,
-  type DashboardDialog,
-} from './components/dialogs';
-import { EmptyData } from './components/empty-data';
-import { ReportHeader } from './components/report-header';
-import {
-  blankReport,
-  copyOf,
-  defaultReport,
-  findReport,
-  initialReports,
-  newId,
-  remove,
-  upsert,
-  type SavedReport,
-} from './reports-store';
-import { pagesFor, pageTitlesFor } from './page-titles';
-import { ReportsSidebar } from './components/sidebar';
-import { DashboardSkeleton } from './components/skeleton';
-import * as reportState from './report-state';
-import { buildAi } from './studio/ai';
-import { buildStudioData, hasData } from './studio/data';
-import { agStudioPayPalTheme } from './studio/theme';
-import { useReports } from './use-reports';
+import { Rio } from '@/components/rio';
+import { Button, cx } from '@/components/ui';
+import { api as call, shortModel } from '@/lib/client';
+import type { PublicState } from '@/lib/view';
+import { buildAi } from './studio/auditor';
+import { buildStudioData } from './studio/data';
+import { defaultReport, PAGES } from './studio/report';
+import { paydayStudioTheme } from './studio/theme';
+import { paydayWidgets, type DashStore } from './studio/widgets';
 
-if (process.env.NODE_ENV !== 'production') {
-  enableStudioDevValidations();
-}
+if (process.env.NODE_ENV !== 'production') enableStudioDevValidations();
 
-type DashboardProps = {
-  data: DashboardData;
-  licenseKey?: string;
-  /** OpenAI models the assistant may use; omitted when no key is configured, which hides the assistant. */
-  aiModels?: string[];
-};
-
-type StudioHistory = { canUndo: boolean; canRedo: boolean };
-
-const NO_HISTORY: StudioHistory = { canUndo: false, canRedo: false };
-
+const SAVE_KEY = 'payday.dashboard.v3';
 const noSubscription = () => () => {};
 
-export function Dashboard(props: DashboardProps) {
-  // Saved reports live in localStorage, which only exists in the browser.
-  const inBrowser = useSyncExternalStore(
-    noSubscription,
-    () => true,
-    () => false,
-  );
-  return inBrowser ? <ReportsDashboard {...props} /> : <DashboardSkeleton />;
+function createStore(initial: PublicState): DashStore & { set: (s: PublicState) => void } {
+  let current = initial;
+  const listeners = new Set<() => void>();
+  const store = {
+    get: () => current,
+    subscribe: (l: () => void) => {
+      listeners.add(l);
+      return () => listeners.delete(l);
+    },
+    set: (s: PublicState) => {
+      current = s;
+      listeners.forEach((l) => l());
+    },
+    reload: async () => {
+      store.set(await call<PublicState>('/api/state'));
+    },
+  };
+  return store;
 }
 
-function ReportsDashboard({ data, licenseKey, aiModels }: DashboardProps) {
-  const { store, latest, update, editReport } = useReports();
-  const apiRef = useRef<AgStudioApi | null>(null);
-
-  // The open report as it is in Studio now, unsaved edits included, for drawing the shell.
-  // Null until Studio is ready.
-  const [studioState, setStudioState] = useState<AgReportState | null>(null);
-  const [history, setHistory] = useState<StudioHistory>(NO_HISTORY);
-  const [mode, setMode] = useState<AgStudioMode>('view');
-  const [dialog, setDialog] = useState<DashboardDialog>(null);
-
-  const { reports } = store;
-  // The open report, as it was last saved.
-  const saved = findReport(reports, store.activeId) ?? reports[0];
-  // Studio reads initialState once, when it is created, and starts on the open report; after that,
-  // its state is read from Studio.
-  const [initialState] = useState(() => reportState.withFiltersPanelFor('view', saved.state));
-  const state = studioState ?? initialState;
-  const studioData = useMemo(() => buildStudioData(data), [data]);
-  // `ai` is read once, when Studio is created.
-  const ai = useMemo(() => (aiModels?.length ? buildAi(aiModels) : undefined), [aiModels]);
-
-  // --- Driving Studio ---------------------------------------------------------------
-  const load = (
-    report: SavedReport,
-    selectedPageId = report.state.selectedPageId,
-    nextMode = mode,
-  ) => {
-    const api = apiRef.current;
-    if (!api) return;
-    api.setState(
-      reportState.withFiltersPanelFor(nextMode, {
-        ...report.state,
-        selectedPageId,
-      }),
+export function Dashboard(props: { initial: PublicState; licenseKey?: string; aiModels?: string[] }) {
+  const inBrowser = useSyncExternalStore(noSubscription, () => true, () => false);
+  if (!inBrowser) {
+    return (
+      <div className="flex flex-1 flex-col items-center justify-center gap-3 p-10 text-pd-muted" role="status">
+        <Rio pose="idle" size={96} className="pd-pulse" />
+        Loading the dashboard
+      </div>
     );
-    // Undo shouldn't step back into the previous report.
-    api.clearHistory();
-    setStudioState(api.getState());
-    setHistory(NO_HISTORY);
-    setMode(nextMode);
-    update((current) => ({ ...current, activeId: report.id }));
-  };
-  const updateState = (next: (current: AgReportState) => AgReportState) => {
-    const api = apiRef.current;
-    if (api) api.setState(next(api.getState()));
-  };
-  const changeMode = (next: AgStudioMode) => {
-    updateState((s) => reportState.withFiltersPanelFor(next, s));
-    setMode(next);
-  };
+  }
+  return <StudioDashboard {...props} />;
+}
 
-  // --- Saving -----------------------------------------------------------------------
+function StudioDashboard({ initial, licenseKey, aiModels }: { initial: PublicState; licenseKey?: string; aiModels?: string[] }) {
+  const [store] = useState(() => createStore(initial));
+  const state = useSyncExternalStore(store.subscribe, store.get, store.get);
+  const apiRef = useRef<AgStudioApi | null>(null);
+  const [mode, setMode] = useState<AgStudioMode>('view');
+  const [pageId, setPageId] = useState('overview');
+  const [saved, setSaved] = useState<string | null>(null);
+  const [refreshing, setRefreshing] = useState(false);
+
+  const [initialState] = useState<AgReportState>(() => {
+    try {
+      const stored = window.localStorage.getItem(SAVE_KEY);
+      if (stored) return JSON.parse(stored) as AgReportState;
+    } catch {}
+    return defaultReport;
+  });
+
+  const data = useMemo(() => buildStudioData(state), [state]);
+  // `ai` and `context` are read once, when Studio is created.
+  const ai = useMemo(() => (aiModels?.length ? buildAi(aiModels, store) : undefined), [aiModels, store]);
+  const context = useMemo(() => ({ store }), [store]);
+
+  // Live data: poll the app state (which re-reads pending payouts from PayPal).
+  const refresh = useCallback(
+    async (all = false) => {
+      try {
+        store.set(await call<PublicState>(`/api/state?refresh=${all ? 'all' : '1'}`));
+      } catch {}
+    },
+    [store],
+  );
+  useEffect(() => {
+    const timer = setInterval(() => void refresh(), 8000);
+    return () => clearInterval(timer);
+  }, [refresh]);
+
+  const selectPage = (id: string) => {
+    const studio = apiRef.current;
+    if (!studio) return;
+    const current = studio.getState();
+    if (current.pages.some((p) => p.id === id)) studio.setState({ ...current, selectedPageId: id });
+    setPageId(id);
+  };
+  // The auditor's chat lives in Studio's AI panel, which Studio shows in edit mode.
+  const askAuditor = () => {
+    const studio = apiRef.current;
+    if (!studio) return;
+    setMode('edit');
+    // Studio opens its edit panels when the mode changes, so the panel state is set just after.
+    setTimeout(() => {
+      const current = studio.getState();
+      studio.setState({ ...current, panels: { ...current.panels, ai: { collapsed: false, width: 460 }, edit: { collapsed: true }, data: { collapsed: true }, filters: { collapsed: true } } });
+    }, 250);
+  };
   const save = () => {
-    const api = apiRef.current;
-    if (!api) return;
-    const current = api.getState();
-    editReport(saved.id, (report) => ({
-      ...report,
-      // Titles for exactly the pages being saved.
-      pageTitles: pageTitlesFor({ pageTitles: report.pageTitles, state: current }),
-      state: current,
-      updatedAt: new Date().toISOString(),
-    }));
-    console.log('[AG Studio] saved report', saved.name, current);
+    const studio = apiRef.current;
+    if (!studio) return;
+    window.localStorage.setItem(SAVE_KEY, JSON.stringify(studio.getState()));
+    setSaved('Layout saved in this browser.');
   };
-  const discard = () =>
-    load(saved, reportState.pageToSelect(saved.state, state.selectedPageId));
-  // Anything that leaves the current report or edit mode asks first when it has unsaved changes.
-  const guard = (then: () => void) => {
-    const api = apiRef.current;
-    if (api && reportState.hasChanges(api.getState(), saved.state)) {
-      setDialog({ kind: 'unsaved', then });
-    } else then();
+  const reset = () => {
+    window.localStorage.removeItem(SAVE_KEY);
+    apiRef.current?.setState({ ...defaultReport, selectedPageId: pageId });
+    apiRef.current?.clearHistory();
+    setSaved('Layout reset to the built-in presets.');
   };
-
-  // --- Reports ----------------------------------------------------------------------
-  const openReport = (id: string) => {
-    const report = findReport(reports, id);
-    if (report && id !== saved.id) guard(() => load(report));
-  };
-  const createReport = (name: string) => {
-    const report = blankReport(name);
-    update((current) => upsert(current, report));
-    load(report, report.state.selectedPageId, 'edit');
-  };
-  const duplicateReport = (id: string) =>
-    guard(() => {
-      const source = findReport(reports, id);
-      if (!source) return;
-      const copy = copyOf(source);
-      update((current) => upsert(current, copy));
-      load(copy);
-    });
-  const resetDemo = () => {
-    update(initialReports);
-    load(defaultReport(), undefined, 'view');
-  };
-  const deleteReport = (report: SavedReport) => {
-    update((current) => remove(current, report.id));
-    if (report.id !== saved.id) return;
-    const { reports: next, activeId } = latest();
-    load(findReport(next, activeId) ?? next[0]);
-  };
-  const renameReport = (id: string, name: string) =>
-    editReport(id, (report) => ({ ...report, name }));
-
-  // --- Pages ------------------------------------------------------------------------
-  // Studio leaves page navigation to the host, and its state has no page names. Page names are
-  // saved as soon as they change; new pages are numbered until they're named.
-  const selectPage = (id: string, pageId: string) => {
-    if (id === saved.id) updateState((s) => reportState.selectPage(s, pageId));
-    else {
-      const report = findReport(reports, id);
-      if (report) guard(() => load(report, pageId));
-    }
-  };
-  const addPage = () => {
-    const id = newId('page');
-    updateState((s) => reportState.addPage(s, id));
-    // A new page is empty, so open edit mode to fill it.
-    if (mode !== 'edit') changeMode('edit');
-    return id;
-  };
-  const removePage = (id: string) =>
-    updateState((s) => reportState.removePage(s, id));
-  const renamePage = (id: string, title: string) =>
-    editReport(saved.id, (report) => ({
-      ...report,
-      pageTitles: { ...report.pageTitles, [id]: title },
-    }));
-
-  const editing = mode === 'edit';
-  const pages = pagesFor({ pageTitles: saved.pageTitles, state });
 
   return (
-    <AppShell
-      sidebar={
-        <ReportsSidebar
-          reports={reports}
-          activeId={saved.id}
-          activePages={pages}
-          selectedPageId={state.selectedPageId}
-          editing={editing}
-          ready={studioState !== null}
-          onSelectReport={openReport}
-          onSelectPage={selectPage}
-          onAddPage={() => (apiRef.current ? addPage() : undefined)}
-          onRemovePage={removePage}
-          onRenamePage={renamePage}
-          onRenameReport={renameReport}
-          onCreate={() => guard(() => setDialog({ kind: 'create' }))}
-          onDuplicate={duplicateReport}
-          onDelete={(id) => {
-            const report = findReport(reports, id);
-            if (report) setDialog({ kind: 'delete', report });
-          }}
-          onReset={() => setDialog({ kind: 'reset' })}
-        />
-      }
-    >
-      <ReportHeader
-        reportName={saved.name}
-        pageTitle={pages.find((p) => p.id === state.selectedPageId)?.title}
-        asOf={data.asOf}
-        editing={editing}
-        pageIsEmpty={studioState !== null && !reportState.pageHasWidgets(state)}
-        canUndo={history.canUndo}
-        canRedo={history.canRedo}
-        onUndo={() => apiRef.current?.undo()}
-        onRedo={() => apiRef.current?.redo()}
-        onSave={save}
-        onDiscard={discard}
-        onEditingChange={(next) =>
-          next ? changeMode('edit') : guard(() => changeMode('view'))
-        }
-      />
-
-      <div className="min-h-0 flex-1">
-        {hasData(data) ? (
-          <AgStudioProvider licenseKey={licenseKey} modules={ai ? [AgStudioAiModule] : undefined}>
-            <AgStudio
-              style={{ height: '100%', width: '100%' }}
-              theme={agStudioPayPalTheme}
-              layout={{ widgetBorderEnabled: true }}
-              data={studioData}
-              ai={ai}
-              initialState={initialState}
-              mode={mode}
-              onApiReady={(event) => {
-                apiRef.current = event.api;
-              }}
-              onStudioReady={(event) => {
-                const current = event.api.getState();
-                console.log('[AG Studio] initial state', current);
-                setStudioState(current);
-              }}
-              onStateUpdated={(event) => {
-                console.log('[AG Studio] state updated', event.state);
-                const { undo, redo } = event.api.getHistory();
-                setStudioState(event.state);
-                setHistory({ canUndo: undo.length > 0, canRedo: redo.length > 0 });
-              }}
-            />
-          </AgStudioProvider>
-        ) : (
-          <EmptyData />
-        )}
+    <div className="flex min-h-0 flex-1 flex-col">
+      <div className="flex flex-wrap items-center gap-x-4 gap-y-2 border-b border-pd-border bg-white px-4 py-2">
+        <div className="mr-2">
+          <h1 className="text-lg font-extrabold leading-tight">Payouts dashboard</h1>
+          <p className="text-xs text-pd-muted">
+            TidyNest, live from the PayPal sandbox. Built with AG Studio.
+            {aiModels?.length ? ` Auditor model: ${shortModel(aiModels[0])}.` : ''}
+          </p>
+        </div>
+        <div role="tablist" aria-label="Layout presets" className="flex rounded-lg border border-pd-border p-0.5">
+          {PAGES.map((p) => (
+            <button
+              key={p.id}
+              role="tab"
+              type="button"
+              aria-selected={pageId === p.id}
+              onClick={() => selectPage(p.id)}
+              data-testid={`preset-${p.id}`}
+              className={cx('min-h-9 rounded-md px-3 text-sm font-semibold', pageId === p.id ? 'bg-pd-ink text-white' : 'text-pd-muted hover:bg-pd-highlight')}
+            >
+              {p.title}
+            </button>
+          ))}
+        </div>
+        <div className="ml-auto flex flex-wrap items-center gap-2">
+          <span aria-live="polite" className="text-xs text-pd-muted">{saved}</span>
+          <Button
+            small
+            variant="secondary"
+            busy={refreshing}
+            data-testid="dash-refresh"
+            onClick={async () => {
+              setRefreshing(true);
+              await refresh(true);
+              setRefreshing(false);
+            }}
+          >
+            Refresh from PayPal
+          </Button>
+          {mode === 'edit' && (
+            <>
+              <Button small variant="secondary" onClick={() => apiRef.current?.undo()}>Undo</Button>
+              <Button small variant="secondary" onClick={reset}>Reset layout</Button>
+              <Button small onClick={save} data-testid="dash-save">Save layout</Button>
+            </>
+          )}
+          {ai && (
+            <Button small onClick={askAuditor} data-testid="ask-auditor" className="bg-pd-ink hover:bg-pd-ink">
+              Ask the auditor
+            </Button>
+          )}
+          <Button small variant={mode === 'edit' ? 'primary' : 'secondary'} aria-pressed={mode === 'edit'} onClick={() => setMode(mode === 'edit' ? 'view' : 'edit')} data-testid="dash-edit">
+            {mode === 'edit' ? 'Done editing' : 'Edit layout'}
+          </Button>
+        </div>
       </div>
 
-      <UnsavedChangesDialog
-        open={dialog?.kind === 'unsaved'}
-        reportName={saved.name}
-        onCancel={() => setDialog(null)}
-        onDiscard={() => {
-          discard();
-          if (dialog?.kind === 'unsaved') dialog.then();
-          setDialog(null);
-        }}
-        onSave={() => {
-          save();
-          if (dialog?.kind === 'unsaved') dialog.then();
-          setDialog(null);
-        }}
-      />
-      <CreateReportDialog
-        open={dialog?.kind === 'create'}
-        onClose={() => setDialog(null)}
-        onCreate={(name) => {
-          setDialog(null);
-          createReport(name);
-        }}
-      />
-      <DeleteReportDialog
-        report={dialog?.kind === 'delete' ? dialog.report : null}
-        onCancel={() => setDialog(null)}
-        onConfirm={(report) => {
-          deleteReport(report);
-          setDialog(null);
-        }}
-      />
-      <ResetDemoDialog
-        open={dialog?.kind === 'reset'}
-        builtInName={defaultReport().name}
-        onCancel={() => setDialog(null)}
-        onConfirm={() => {
-          resetDemo();
-          setDialog(null);
-        }}
-      />
-    </AppShell>
+      <div style={{ height: 'calc(100dvh - 120px)', minHeight: 640, flex: 'none' }} data-testid="studio">
+        <AgStudioProvider licenseKey={licenseKey} modules={ai ? [AgStudioAiModule] : undefined}>
+          <AgStudio
+            style={{ height: '100%', width: '100%' }}
+            theme={paydayStudioTheme}
+            layout={{ widgetBorderEnabled: true }}
+            panels={{ edit: { left: ['edit', 'data'], right: ['ai', 'filters'] }, view: { right: ['filters'] } }}
+            data={data}
+            widgets={paydayWidgets}
+            context={context}
+            ai={ai}
+            initialState={initialState}
+            mode={mode}
+            onApiReady={(event) => {
+              apiRef.current = event.api;
+            }}
+            onStudioReady={(event) => setPageId(event.api.getState().selectedPageId ?? 'overview')}
+            onStateUpdated={(event) => setPageId(event.state.selectedPageId ?? 'overview')}
+          />
+        </AgStudioProvider>
+      </div>
+    </div>
   );
 }

@@ -6,12 +6,12 @@ import { promises as fs } from 'node:fs';
 import path from 'node:path';
 
 const DIR = path.join(process.cwd(), '.data');
-const useBlob = () => Boolean(process.env.BLOB_READ_WRITE_TOKEN);
+const blobEnabled = () => Boolean(process.env.BLOB_READ_WRITE_TOKEN);
 const blobPath = (key: string) => `payday/${key}.json`;
 const filePath = (key: string) => path.join(DIR, `${key.replace(/[^a-zA-Z0-9_-]/g, '_')}.json`);
 
 export async function getDoc<T>(key: string): Promise<T | null> {
-  if (useBlob()) {
+  if (blobEnabled()) {
     const { list } = await import('@vercel/blob');
     const found = await list({ prefix: blobPath(key), limit: 1 });
     const blob = found.blobs.find((b) => b.pathname === blobPath(key));
@@ -27,7 +27,7 @@ export async function getDoc<T>(key: string): Promise<T | null> {
 }
 
 export async function setDoc<T>(key: string, value: T): Promise<void> {
-  if (useBlob()) {
+  if (blobEnabled()) {
     const { put } = await import('@vercel/blob');
     await put(blobPath(key), JSON.stringify(value), {
       access: 'public',
@@ -45,7 +45,7 @@ export async function setDoc<T>(key: string, value: T): Promise<void> {
 }
 
 export async function deleteDoc(key: string): Promise<void> {
-  if (useBlob()) {
+  if (blobEnabled()) {
     const { del } = await import('@vercel/blob');
     await del(blobPath(key)).catch(() => {});
     return;

@@ -223,8 +223,10 @@ export function detectAnomalies(state: Pick<AppState, 'workers' | 'jobs' | 'payo
 
   // 4. Two jobs at the same time in different places.
   const worked = state.jobs.filter((j) => j.checkInAt && j.completedAt);
+  // Jobs completed in the demo get their times stamped at submit, so they are left out of the overlap rule.
+  const clocked = worked.filter((j) => !j.demoClock);
   for (const w of state.workers) {
-    const mine = worked.filter((j) => j.workerId === w.id).sort((a, b) => a.checkInAt!.localeCompare(b.checkInAt!));
+    const mine = clocked.filter((j) => j.workerId === w.id).sort((a, b) => a.checkInAt!.localeCompare(b.checkInAt!));
     for (let i = 0; i < mine.length; i++)
       for (let k = i + 1; k < mine.length; k++) {
         const a = mine[i];
@@ -295,7 +297,8 @@ export function mergeAnomalies(existing: Anomaly[], found: Found[], now: Date = 
   // Cards already acted on stay in the feed even when the condition has cleared (a cancelled item, say).
   const foundIds = new Set(found.map((f) => f.id));
   const kept = existing.filter((a) => !foundIds.has(a.id) && a.status !== 'open');
-  return [...merged, ...kept].sort((a, b) => b.detectedAt.localeCompare(a.detectedAt));
+  const rank = { high: 0, medium: 1, low: 2 };
+  return [...merged, ...kept].sort((a, b) => rank[a.severity] - rank[b.severity] || b.amountAtRisk - a.amountAtRisk);
 }
 
 export function median(values: number[]) {

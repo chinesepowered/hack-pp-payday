@@ -1,251 +1,200 @@
-// AG Studio's data sources for the dashboard: a table for each row type in lib/dashboard-data.ts,
-// the relationships between them, a shared calendar and a few calculated measures.
+// AG Studio's data sources for the payouts dashboard: flat tables built from the app state
+// (lib/view.ts), the relationships between them, and a one-row summary for the headline tiles.
 
-import type {
-  AgDataSourcesDefinition,
-  AgExpressionFieldDefinition,
-  AgFieldDefinition,
-  AgFormat,
-  AgRelationDefinition,
-} from 'ag-studio';
-import type { DashboardData } from '@/lib/dashboard-data';
+import type { AgDataSourcesDefinition, AgFieldDefinition, AgFormat, AgRelationDefinition } from 'ag-studio';
+import { round2 } from '@/lib/rules';
+import { buildTables, headline, type PublicState } from '@/lib/view';
 
-// --- Helpers ----------------------------------------------------------------------
-
-const CALENDAR_ID = 'calendar';
-
-// [id, name, format, hide?]
 type FieldSpec = [id: string, name: string, format: AgFormat, hide?: boolean];
 
-const fields = (specs: FieldSpec[]): AgFieldDefinition[] =>
-  specs.map(([id, name, format, hide]) => ({ id, name, format, ...(hide && { hide }) }));
+const fields = (specs: FieldSpec[]): AgFieldDefinition[] => specs.map(([id, name, format, hide]) => ({ id, name, format, ...(hide && { hide }) }));
 
-// Foreign key 'table.field' -> primary key 'table.field'.
 const manyToOne = (id: string, source: string, target: string): AgRelationDefinition => {
   const [sourceTable, sourceField] = source.split('.');
   const [targetTable, targetField] = target.split('.');
-  return {
-    id,
-    source: { tableId: sourceTable, fieldId: sourceField },
-    target: { tableId: targetTable, fieldId: targetField },
-    type: 'many-to-one',
-  };
+  return { id, source: { tableId: sourceTable, fieldId: sourceField }, target: { tableId: targetTable, fieldId: targetField }, type: 'many-to-one' };
 };
 
-const onCalendar = (tableId: string, fieldId: string, truncate?: 'day'): AgRelationDefinition => ({
-  id: `${tableId}-${fieldId}-calendar`,
-  source: { tableId, fieldId },
-  target: { calendarId: CALENDAR_ID },
-  ...(truncate && { truncate }),
-});
+export function buildStudioData(state: PublicState): AgDataSourcesDefinition {
+  const t = buildTables(state);
+  const k = headline(state);
+  const firstPaid = new Map<string, string>();
+  for (const p of [...t.payouts].sort((a, b) => a.createdAt.localeCompare(b.createdAt))) if (!firstPaid.has(p.jobId)) firstPaid.set(p.jobId, p.createdAt.slice(0, 16).replace('T', ' '));
 
-const sumOf = (id: string) => ({ id, aggregation: 'sum' as const });
-
-const ratio = (id: string, name: string, description: string, numerator: string, denominator: string): AgExpressionFieldDefinition => ({
-  id,
-  name,
-  description,
-  format: 'percentageFormat',
-  isMeasure: true,
-  expression: { operator: 'divide', inputs: [sumOf(numerator), sumOf(denominator)] },
-});
-
-// --- Data sources -----------------------------------------------------------------
-
-
-// Whether the PayPal account has anything to report on. Without it, Studio would only show empty widgets.
-export const hasData = (data: DashboardData) =>
-  [data.invoices, data.transactions, data.products, data.plans, data.balances].some((rows) => rows.length > 0);
-
-export function buildStudioData(data: DashboardData): AgDataSourcesDefinition {
-  const dates = [
-    ...data.invoices.map((r) => r.invoiceDate),
-    ...data.invoicePayments.map((r) => r.date),
-    ...data.transactions.map((r) => r.date?.slice(0, 10)),
-  ]
-    .filter((d): d is string => !!d)
-    .sort();
-  const today = data.asOf.slice(0, 10);
+  const payouts = t.payouts.map((p) => ({ ...p, regularAmount: round2(p.amount - p.duplicateAmount), paidAt: p.createdAt.slice(0, 16).replace('T', ' ') }));
+  const duplicates = payouts
+    .filter((p) => p.duplicate)
+    .map((p) => ({ id: p.id, jobId: p.jobId, worker: p.worker, amount: p.amount, firstPaidAt: firstPaid.get(p.jobId) ?? '', paidAgainAt: p.paidAt, date: p.date, weekday: p.weekday, channel: p.channel, source: p.source, paypalItemId: p.paypalItemId }));
+  const unclaimed = payouts
+    .filter((p) => p.status === 'UNCLAIMED')
+    .map((p) => ({ id: p.id, jobId: p.jobId, worker: p.worker, sentTo: p.email, amount: p.amount, sentAt: p.paidAt, ageHours: round2((Date.now() - Date.parse(p.createdAt)) / 3_600_000), paypalItemId: p.paypalItemId, source: p.source }));
+  const summary = [
+    {
+      id: 'now',
+      paidToday: k.paidToday,
+      payoutsToday: k.payoutsToday,
+      medianMinutesToPay: k.medianMinutesPayday,
+      medianDaysManual: k.medianDaysManual,
+      unclaimed: k.unclaimed,
+      openAnomalies: k.openAnomalies,
+      atRisk: k.atRisk,
+      feesToday: k.feesToday,
+    },
+  ];
 
   return {
     description:
-      'PayPal sandbox data fetched over the REST API for a merchant that sells subscription products and sends invoices. ' +
-      'Invoices are in USD, EUR or GBP and are not converted, so filter by currency before summing money. ' +
-      'Invoice payments are recorded externally (bank transfer, card, check, cash). The ledger holds payouts to affiliates, creators and customers.',
+      'Payouts desk of TidyNest, a fictional home cleaning marketplace that pays its cleaners through PayPal Payouts (sandbox). ' +
+      'All money is USD. Rows marked "Imported history" are seeded records from the last two weeks; rows marked "Live sandbox" are real PayPal sandbox payouts. ' +
+      'A payout with duplicate = true is a second payout for a job that was already paid.',
     sources: [
       {
-        id: 'customers',
-        description: 'Invoice recipients, keyed by lower-cased email.',
-        data: data.customers,
-        fields: fields([
-          ['id', 'Customer ID', 'textFormat', true],
-          ['name', 'Customer', 'textFormat'],
-          ['company', 'Company', 'textFormat'],
-          ['email', 'Email', 'textFormat'],
-        ]),
-      },
-      {
-        id: 'invoices',
-        description:
-          'One row per invoice. Issued amount excludes drafts, scheduled and cancelled invoices. Outstanding and aging apply only to open or partially paid invoices.',
-        data: data.invoices,
-        fields: fields([
-          ['id', 'Invoice ID', 'textFormat', true],
-          ['number', 'Invoice', 'textFormat'],
-          ['customerId', 'Customer ID', 'textFormat', true],
-          ['status', 'Invoice Status', 'textFormat'],
-          ['statusGroup', 'Status Group', 'textFormat'],
-          ['currency', 'Currency', 'textFormat'],
-          ['paymentTerm', 'Payment Term', 'textFormat'],
-          ['invoiceDate', 'Invoice Date', 'dateFormat'],
-          ['dueDate', 'Due Date', 'dateFormat'],
-          ['total', 'Invoice Total', 'currencyFormat'],
-          ['issuedAmount', 'Invoiced', 'currencyFormat'],
-          ['paidAmount', 'Paid', 'currencyFormat'],
-          ['refundedAmount', 'Refunded', 'currencyFormat'],
-          ['netCollected', 'Net Collected', 'currencyFormat'],
-          ['isReceivable', 'Is Receivable', 'booleanFormat'],
-          ['outstanding', 'Outstanding', 'currencyFormat'],
-          ['overdueAmount', 'Overdue', 'currencyFormat'],
-          ['daysOverdue', 'Days Overdue', 'integerFormat'],
-          ['agingBucket', 'Aging Bucket', 'textFormat'],
-          ['daysToPay', 'Days to Pay', 'integerFormat'],
-          ['taxTotal', 'Tax', 'currencyFormat'],
-        ]),
-      },
-      {
-        id: 'invoiceItems',
-        name: 'Invoice Line Items',
-        description: 'Invoice lines. Line total is after line discount and tax, before invoice-level discount and shipping.',
-        data: data.invoiceItems,
-        fields: fields([
-          ['id', 'Line ID', 'textFormat', true],
-          ['invoiceId', 'Invoice ID', 'textFormat', true],
-          ['name', 'Item', 'textFormat'],
-          ['unit', 'Unit', 'textFormat'],
-          ['quantity', 'Quantity', 'decimalFormat'],
-          ['unitPrice', 'Unit Price', 'currencyFormat'],
-          ['gross', 'Gross', 'currencyFormat'],
-          ['discount', 'Line Discount', 'currencyFormat'],
-          ['tax', 'Line Tax', 'currencyFormat'],
-          ['lineTotal', 'Line Total', 'currencyFormat'],
-        ]),
-      },
-      {
-        id: 'invoicePayments',
-        name: 'Invoice Payments',
-        description: 'Payments and refunds recorded against invoices. Signed amount is negative for refunds; sum it for net cash.',
-        data: data.invoicePayments,
-        fields: fields([
-          ['id', 'Payment ID', 'textFormat', true],
-          ['invoiceId', 'Invoice ID', 'textFormat', true],
-          ['kind', 'Payment Kind', 'textFormat'],
-          ['method', 'Payment Method', 'textFormat'],
-          ['date', 'Payment Date', 'dateFormat'],
-          ['amount', 'Payment Amount', 'currencyFormat'],
-          ['signedAmount', 'Net Cash', 'currencyFormat'],
-        ]),
-      },
-      {
-        id: 'products',
-        description: 'Catalog products sold as subscriptions.',
-        data: data.products,
-        fields: fields([
-          ['id', 'Product ID', 'textFormat', true],
-          ['name', 'Product', 'textFormat'],
-          ['type', 'Product Type', 'textFormat'],
-          ['category', 'Product Category', 'textFormat'],
-          ['description', 'Product Description', 'textFormat'],
-        ]),
-      },
-      {
-        id: 'plans',
-        name: 'Billing Plans',
-        description: 'Subscription billing plans, in USD. Monthly price normalises weekly, quarterly and annual pricing to one month.',
-        data: data.plans,
-        fields: fields([
-          ['id', 'Plan ID', 'textFormat', true],
-          ['productId', 'Product ID', 'textFormat', true],
-          ['name', 'Plan', 'textFormat'],
-          ['status', 'Plan Status', 'textFormat'],
-          ['billingInterval', 'Billed', 'textFormat'],
-          ['price', 'Price', 'currencyFormat'],
-          ['monthlyPrice', 'Monthly Price', 'currencyFormat'],
-          ['trialDays', 'Trial Days', 'integerFormat'],
-          ['setupFee', 'Setup Fee', 'currencyFormat'],
-        ]),
-      },
-      {
-        id: 'transactions',
-        description: 'Account ledger from Transaction Search, last 31 days. Amounts are signed (debits negative); net is amount plus fee.',
-        data: data.transactions,
-        fields: fields([
-          ['id', 'Transaction ID', 'textFormat'],
-          ['date', 'Transaction Date', 'dateTimeFormat'],
-          ['eventType', 'Event Type', 'textFormat'],
-          ['status', 'Transaction Status', 'textFormat'],
-          ['direction', 'Direction', 'textFormat'],
-          ['currency', 'Transaction Currency', 'textFormat', true],
-          ['amount', 'Transaction Amount', 'currencyFormat'],
-          ['fee', 'Transaction Fee', 'currencyFormat'],
-          ['net', 'Transaction Net', 'currencyFormat'],
-          ['endingBalance', 'Ending Balance', 'currencyFormat'],
-          ['counterparty', 'Counterparty', 'textFormat'],
-          ['note', 'Transaction Note', 'textFormat'],
-        ]),
-      },
-      {
         id: 'payouts',
-        description: 'Individual payouts sent from the account, as positive USD amounts, grouped into campaigns.',
-        data: data.payouts,
+        description: 'One row per payout to a worker. duplicateAmount is the amount when the payout is a duplicate, otherwise 0; regularAmount is the rest. minutesToPay is job completion to payout success.',
+        data: payouts,
         fields: fields([
           ['id', 'Payout ID', 'textFormat', true],
-          ['campaign', 'Campaign', 'textFormat'],
-          ['recipient', 'Recipient', 'textFormat'],
-          ['date', 'Payout Date', 'dateTimeFormat'],
-          ['status', 'Payout Status', 'textFormat'],
-          ['amount', 'Payout Amount', 'currencyFormat'],
+          ['jobId', 'Job', 'textFormat'],
+          ['workerId', 'Worker ID', 'textFormat', true],
+          ['worker', 'Worker', 'textFormat'],
+          ['email', 'Payout Email', 'textFormat'],
+          ['amount', 'Amount', 'currencyFormat'],
+          ['regularAmount', 'Regular Amount', 'currencyFormat'],
+          ['duplicateAmount', 'Duplicate Amount', 'currencyFormat'],
+          ['unclaimedAmount', 'Unclaimed Amount', 'currencyFormat'],
           ['fee', 'Payout Fee', 'currencyFormat'],
-          ['note', 'Payout Note', 'textFormat'],
+          ['status', 'Status', 'textFormat'],
+          ['channel', 'Channel', 'textFormat'],
+          ['source', 'Source', 'textFormat'],
+          ['date', 'Payout Date', 'dateFormat'],
+          ['weekday', 'Weekday', 'textFormat'],
+          ['paidAt', 'Paid At', 'textFormat'],
+          ['minutesToPay', 'Minutes to Pay', 'decimalFormat'],
+          ['duplicate', 'Duplicate', 'booleanFormat'],
+          ['flags', 'Watchdog Flags', 'textFormat'],
+          ['paypalItemId', 'PayPal Item ID', 'textFormat'],
+          ['paypalBatchId', 'PayPal Batch ID', 'textFormat'],
         ]),
       },
       {
-        id: 'balances',
-        description: 'Current account balance per currency.',
-        data: data.balances,
+        id: 'jobs',
+        description: 'One row per cleaning job. amount is what the worker earns; customerPrice is what the customer pays TidyNest.',
+        data: t.jobs,
         fields: fields([
-          ['currency', 'Balance Currency', 'textFormat'],
-          ['total', 'Total Balance', 'currencyFormat'],
-          ['available', 'Available Balance', 'currencyFormat'],
-          ['withheld', 'Withheld Balance', 'currencyFormat'],
+          ['id', 'Job ID', 'textFormat'],
+          ['workerId', 'Worker ID', 'textFormat', true],
+          ['worker', 'Job Worker', 'textFormat', true],
+          ['customer', 'Customer', 'textFormat'],
+          ['address', 'Address', 'textFormat'],
+          ['type', 'Job Type', 'textFormat'],
+          ['hours', 'Hours', 'decimalFormat'],
+          ['amount', 'Job Amount', 'currencyFormat'],
+          ['customerPrice', 'Customer Price', 'currencyFormat'],
+          ['status', 'Job Status', 'textFormat'],
+          ['verdict', 'AI Verdict', 'textFormat'],
+          ['source', 'Job Source', 'textFormat', true],
+          ['date', 'Job Date', 'dateFormat'],
+        ]),
+      },
+      {
+        id: 'workers',
+        description: 'One row per worker, with totals.',
+        data: t.workers,
+        fields: fields([
+          ['id', 'Worker ID', 'textFormat', true],
+          ['name', 'Worker Name', 'textFormat'],
+          ['area', 'Area', 'textFormat'],
+          ['hourlyRate', 'Hourly Rate', 'currencyFormat'],
+          ['earned', 'Earned', 'currencyFormat'],
+          ['hours', 'Hours Worked', 'decimalFormat'],
+          ['jobs', 'Jobs Paid', 'integerFormat'],
+          ['medianMinutesToPay', 'Median Minutes to Pay', 'decimalFormat'],
+          ['openFlags', 'Open Flags', 'integerFormat'],
+          ['onHold', 'On Hold', 'booleanFormat'],
+        ]),
+      },
+      {
+        id: 'anomalies',
+        description: 'Watchdog findings: duplicate payout, overpayment, email change, double booking, unclaimed aging, hours spike.',
+        data: t.anomalies,
+        fields: fields([
+          ['id', 'Anomaly ID', 'textFormat', true],
+          ['kind', 'Anomaly Kind', 'textFormat'],
+          ['severity', 'Severity', 'textFormat'],
+          ['title', 'Finding', 'textFormat'],
+          ['worker', 'Flagged Worker', 'textFormat'],
+          ['amountAtRisk', 'Amount at Risk', 'currencyFormat'],
+          ['status', 'Anomaly Status', 'textFormat'],
+          ['suggestedAction', 'Suggested Action', 'textFormat'],
+          ['date', 'Detected', 'dateFormat'],
+        ]),
+      },
+      {
+        id: 'cashflow',
+        description: 'One row per day: money in from customers (PayPal Orders), money out to workers (PayPal Payouts), and fees.',
+        data: t.cashflow,
+        fields: fields([
+          ['date', 'Day', 'dateFormat'],
+          ['weekday', 'Day of Week', 'textFormat'],
+          ['moneyIn', 'Money In', 'currencyFormat'],
+          ['moneyOut', 'Money Out', 'currencyFormat'],
+          ['payoutFees', 'Payout Fees', 'currencyFormat'],
+          ['orderFees', 'Order Fees', 'currencyFormat'],
+          ['net', 'Net', 'currencyFormat'],
+          ['payouts', 'Payout Count', 'integerFormat'],
+        ]),
+      },
+      {
+        id: 'duplicates',
+        description: 'Only the duplicate payouts: the second (or later) payout for a job that was already paid.',
+        data: duplicates,
+        fields: fields([
+          ['id', 'Duplicate Payout ID', 'textFormat', true],
+          ['jobId', 'Duplicated Job', 'textFormat'],
+          ['worker', 'Paid Twice To', 'textFormat'],
+          ['amount', 'Paid Again', 'currencyFormat'],
+          ['firstPaidAt', 'First Paid', 'textFormat'],
+          ['paidAgainAt', 'Paid Again At', 'textFormat'],
+          ['date', 'Duplicate Date', 'dateFormat'],
+          ['weekday', 'Duplicate Weekday', 'textFormat'],
+          ['channel', 'Duplicate Channel', 'textFormat'],
+          ['source', 'Duplicate Source', 'textFormat'],
+          ['paypalItemId', 'Duplicate PayPal Item', 'textFormat'],
+        ]),
+      },
+      {
+        id: 'unclaimed',
+        description: 'Payouts PayPal reports as UNCLAIMED: the receiver email has no PayPal account. They can be cancelled.',
+        data: unclaimed,
+        fields: fields([
+          ['id', 'Unclaimed Payout ID', 'textFormat', true],
+          ['jobId', 'Unclaimed Job', 'textFormat'],
+          ['worker', 'Owed To', 'textFormat'],
+          ['sentTo', 'Sent To', 'textFormat'],
+          ['amount', 'Unclaimed', 'currencyFormat'],
+          ['sentAt', 'Sent At', 'textFormat'],
+          ['ageHours', 'Age (hours)', 'decimalFormat'],
+          ['paypalItemId', 'Unclaimed PayPal Item', 'textFormat'],
+          ['source', 'Unclaimed Source', 'textFormat', true],
+        ]),
+      },
+      {
+        id: 'summary',
+        description: 'One row of headline numbers as of now.',
+        data: summary,
+        fields: fields([
+          ['id', 'Summary ID', 'textFormat', true],
+          ['paidToday', 'Paid Today', 'currencyFormat'],
+          ['payoutsToday', 'Payouts Today', 'integerFormat'],
+          ['medianMinutesToPay', 'Median Minutes to Pay (Payday)', 'decimalFormat'],
+          ['medianDaysManual', 'Median Days to Pay (Manual)', 'decimalFormat'],
+          ['unclaimed', 'Unclaimed Money', 'currencyFormat'],
+          ['openAnomalies', 'Open Anomalies', 'integerFormat'],
+          ['atRisk', 'At Risk', 'currencyFormat'],
+          ['feesToday', 'Payout Fees Today', 'currencyFormat'],
         ]),
       },
     ],
-    relationships: [
-      manyToOne('invoice-customer', 'invoices.customerId', 'customers.id'),
-      manyToOne('item-invoice', 'invoiceItems.invoiceId', 'invoices.id'),
-      manyToOne('payment-invoice', 'invoicePayments.invoiceId', 'invoices.id'),
-      manyToOne('plan-product', 'plans.productId', 'products.id'),
-      onCalendar('invoices', 'invoiceDate'),
-      onCalendar('invoicePayments', 'date'),
-      onCalendar('transactions', 'date', 'day'),
-      onCalendar('payouts', 'date', 'day'),
-    ],
-    calendars: [
-      {
-        id: CALENDAR_ID,
-        label: 'Calendar',
-        range: {
-          from: { type: 'date', value: dates[0] ?? today },
-          to: { type: 'date', value: dates.at(-1) ?? today },
-        },
-        fragments: ['year', 'quarter', 'month', 'week', 'day', 'dayOfWeek'],
-      },
-    ],
-    expressions: [
-      ratio('collectionRate', 'Collection Rate', 'Paid / invoiced. Filter to one currency first.', 'invoices.paidAmount', 'invoices.issuedAmount'),
-      ratio('overdueShare', 'Overdue Share', 'Share of outstanding receivables that is past due.', 'invoices.overdueAmount', 'invoices.outstanding'),
-      ratio('refundRate', 'Refund Rate', 'Refunded / paid.', 'invoices.refundedAmount', 'invoices.paidAmount'),
-    ],
+    relationships: [manyToOne('payout-worker', 'payouts.workerId', 'workers.id'), manyToOne('payout-job', 'payouts.jobId', 'jobs.id')],
   };
 }

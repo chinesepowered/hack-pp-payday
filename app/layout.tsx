@@ -1,27 +1,27 @@
-import type { Metadata } from "next";
-import { Geist_Mono } from "next/font/google";
-import "./globals.css";
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+import type { Metadata, Viewport } from 'next';
+import { Chrome } from '@/components/chrome';
+import './globals.css';
 
 export const metadata: Metadata = {
-  title: {
-    template: "%s · PayPal × AG Grid",
-    default: "PayPal × AG Grid",
-  },
-  description: "PayPal sandbox data in AG Grid and AG Studio",
+  title: { template: '%s | Payday', default: 'Payday: same-day pay for gig workers' },
+  description:
+    'Payday pays gig workers the moment a job is verified, through PayPal Payouts, and an AI watchdog catches payout mistakes before they cost money.',
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export const viewport: Viewport = { width: 'device-width', initialScale: 1, themeColor: '#0f766e' };
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html
-      lang="en"
-      className={`${geistMono.variable} h-full antialiased`}
-    >
-      <body className="min-h-full flex flex-col">{children}</body>
+    <html lang="en" className="h-full antialiased">
+      <body className="flex min-h-full flex-col">
+        <a href="#main" className="skip-link">
+          Skip to content
+        </a>
+        <Chrome />
+        <main id="main" className="flex min-h-0 flex-1 flex-col">
+          {children}
+        </main>
+      </body>
     </html>
   );
 }
