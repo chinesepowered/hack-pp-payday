@@ -271,8 +271,11 @@ export async function runWatchdog(opts: { explain?: boolean } = {}): Promise<Ano
   if (opts.explain === false) return state.anomalies;
 
   const pending = state.anomalies.filter((a) => !a.ai).slice(0, 8);
+  // A slow model must not stall the watchdog: a card that is not explained in time keeps its evidence
+  // and is explained on the next run.
+  const within = <T,>(ms: number, work: Promise<T | null>) => Promise.race([work, new Promise<null>((r) => setTimeout(() => r(null), ms))]);
   const explained = await Promise.all(
-    pending.map(async (a) => {
+    pending.map((a) => within(40_000, (async () => {
       const worker = state.workers.find((w) => w.id === a.workerId);
       try {
         const { text, model } = await complete(
@@ -284,7 +287,7 @@ export async function runWatchdog(opts: { explain?: boolean } = {}): Promise<Ano
               content:
                 'You are the payout auditor for TidyNest, a home cleaning marketplace. You explain payout anomalies to the operator in plain words. ' +
                 'Use only the evidence given. Never invent amounts or dates. Do not use em dashes. Reply with JSON only: ' +
-                '{"summary": "two short sentences: what happened and why it matters", "message": "a short, polite message to the worker asking them to confirm or explaining the next step"}',
+                '{"summary": "two short sentences for the operator, about the worker in the third person: what happened and why it matters", "message": "a short, polite message to the worker asking them to confirm or explaining the next step"}',
             },
             { role: 'user', content: JSON.stringify({ kind: a.kind, title: a.title, worker: worker?.name, amountAtRisk: a.amountAtRisk, evidence: a.evidence, suggestedAction: a.suggestedAction }) },
           ],
@@ -297,7 +300,7 @@ export async function runWatchdog(opts: { explain?: boolean } = {}): Promise<Ano
       } catch {
         return null;
       }
-    }),
+    })())),
   );
   return mutate((latest) => {
     for (const e of explained) {
@@ -341,11 +344,16 @@ export async function actOnAnomaly(anomalyId: string, action: ActionKind | 'dism
       applyItem(payout, item);
       if (payout.status !== 'RETURNED' && payout.status !== 'CANCELED') payout.status = 'RETURNED';
     } catch (e) {
-      // PayPal is the source of truth: if the item changed state meanwhile, show what it is now.
+      // PayPal is the source of truth: re-read the item and show what it is now. Nothing is assumed.
       if (e instanceof PayPalError) {
         const item = await getPayoutItem(payout.itemId).catch(() => null);
         if (item) applyItem(payout, item);
         await saveState(state);
+        if (payout.status === 'UNCLAIMED')
+          throw new Error(
+            `PayPal did not cancel the item (HTTP ${e.status}${(e.body as { name?: string } | null)?.name ? ` ${(e.body as { name?: string }).name}` : ''}, debug id ${e.debugId}). ` +
+              `Nothing changed: item ${payout.itemId} is still UNCLAIMED and the money is still reserved. Try again later, or hold the next payout meanwhile.`,
+          );
       }
       throw e;
     }

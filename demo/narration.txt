@@ -1,0 +1,25 @@
+[s01] It's Friday night. Maya cleaned four homes this week, and she is still waiting to be paid. Her marketplace pays by hand, in batches, when someone gets to it.
+
+[s02] This is Payday: same-day pay for gig workers, built for small service marketplaces with twenty to five hundred workers. Here it runs TidyNest, a home cleaning marketplace, on the PayPal sandbox.
+
+[s03] Maya finishes a job and submits her checklist and photos. A vision model checks every photo against the checklist, and code checks her check-in time and location.
+
+[s04] Verified. Payday calls PayPal Payouts at once, then polls the batch until the money lands. Paid: eighty-six dollars, seconds after she finished.
+
+[s05] Every PayPal call is listed under the hood with its debug ID: the payout batch, the status polls, and the customer's order coming in.
+
+[s06] When a photo set is missing a required room, the AI says so, and the job goes to a person instead of being paid.
+
+[s07] The operator runs the business from a live dashboard built in AG Studio, with custom widgets for the anomaly feed and time to pay, the app's own theme, and layout presets.
+
+[s08] Now ask the payout auditor, a custom agent in Studio's agent framework. Why did payouts spike on Tuesday? It queries the data, finds a manual batch that was sent twice, and has Studio build the widgets that prove it.
+
+[s09] Next, unclaimed money. A payout went to a mistyped email. The auditor pins the evidence and suggests cancelling it. The operator approves. Today PayPal's sandbox refuses that cancel, so Payday shows the debug ID, changes nothing, and the operator holds the next payout instead.
+
+[s10] The AI never moves money on its own. Rules written in code block duplicates, overpayments and risky email changes before PayPal is called, and a person approves every fix.
+
+[s11] Two honest limits: the sandbox would not cancel that item today, and PayPal's transaction search lags by up to three hours, so fresh payouts reconcile as waiting. The two weeks of history are seeded.
+
+[s12] Payday. Paid the day the job is done.
+
+[Rio, in the product, after scene s04] You got paid! The money is in your PayPal. Nice work today.

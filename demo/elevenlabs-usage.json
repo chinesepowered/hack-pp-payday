@@ -1,0 +1,85 @@
+{
+ "total": 2477,
+ "calls": [
+  {
+   "file": "public/audio/rio-paid.mp3",
+   "characters": 59,
+   "voice": "Rio (Will)"
+  },
+  {
+   "file": "public/audio/rio-review.mp3",
+   "characters": 78,
+   "voice": "Rio (Will)"
+  },
+  {
+   "file": "demo/raw/voice/s01.mp3",
+   "characters": 157,
+   "voice": "Narrator (Jessica)"
+  },
+  {
+   "file": "demo/raw/voice/s02.mp3",
+   "characters": 194,
+   "voice": "Narrator (Jessica)"
+  },
+  {
+   "file": "demo/raw/voice/s03.mp3",
+   "characters": 162,
+   "voice": "Narrator (Jessica)"
+  },
+  {
+   "file": "demo/raw/voice/s04.mp3",
+   "characters": 144,
+   "voice": "Narrator (Jessica)"
+  },
+  {
+   "file": "demo/raw/voice/s05.mp3",
+   "characters": 133,
+   "voice": "Narrator (Jessica)"
+  },
+  {
+   "file": "demo/raw/voice/s06.mp3",
+   "characters": 112,
+   "voice": "Narrator (Jessica)"
+  },
+  {
+   "file": "demo/raw/voice/s07.mp3",
+   "characters": 171,
+   "voice": "Narrator (Jessica)"
+  },
+  {
+   "file": "demo/raw/voice/s08.mp3",
+   "characters": 216,
+   "voice": "Narrator (Jessica)"
+  },
+  {
+   "file": "demo/raw/voice/s09.mp3",
+   "characters": 194,
+   "voice": "Narrator (Jessica)"
+  },
+  {
+   "file": "demo/raw/voice/s10.mp3",
+   "characters": 171,
+   "voice": "Narrator (Jessica)"
+  },
+  {
+   "file": "demo/raw/voice/s11.mp3",
+   "characters": 173,
+   "voice": "Narrator (Jessica)"
+  },
+  {
+   "file": "demo/raw/voice/s12.mp3",
+   "characters": 37,
+   "voice": "Narrator (Jessica)"
+  },
+  {
+   "file": "demo/raw/voice/s09.mp3",
+   "characters": 277,
+   "voice": "Narrator (Jessica)"
+  },
+  {
+   "file": "demo/raw/voice/s11.mp3",
+   "characters": 199,
+   "voice": "Narrator (Jessica)"
+  }
+ ]
+}

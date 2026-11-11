@@ -2,7 +2,7 @@
  "paypal": {
   "GET /v1/reporting/balances": {
    "status": 200,
-   "debugId": "f312141d0d97f",
+   "debugId": "f583258351cc3",
    "body": {
     "balances": [
      {
@@ -22,26 +22,26 @@
      }
     ],
     "account_id": "LG9XUJWRKCNDY",
-    "as_of_time": "2026-11-11T18:59:59Z",
-    "last_refresh_time": "2026-11-11T18:59:59Z"
+    "as_of_time": "2026-11-11T19:59:59Z",
+    "last_refresh_time": "2026-11-11T19:59:59Z"
    }
   },
   "POST /v1/payments/payouts": {
    "status": 201,
-   "debugId": "ca59034dc0b56",
+   "debugId": "f7127797bc393",
    "body": {
     "batch_header": {
-     "payout_batch_id": "D5ABM2RPPQ8M4",
+     "payout_batch_id": "ZEMTDYDDGPQG4",
      "batch_status": "PENDING",
      "sender_batch_header": {
-      "sender_batch_id": "payday-PD-J-4001-QKAHHI",
+      "sender_batch_id": "payday-PD-J-4001-7WP1D3",
       "email_subject": "TidyNest paid you for today's job",
       "email_message": "Your job was verified and paid the same day through Payday."
      }
     },
     "links": [
      {
-      "href": "https://api.sandbox.paypal.com/v1/payments/payouts/D5ABM2RPPQ8M4",
+      "href": "https://api.sandbox.paypal.com/v1/payments/payouts/ZEMTDYDDGPQG4",
       "rel": "self",
       "method": "GET",
       "encType": "application/json"
@@ -51,27 +51,27 @@
   },
   "POST /v2/checkout/orders": {
    "status": 201,
-   "debugId": "f512832552bbd",
+   "debugId": "ca59087eb89e1",
    "body": {
-    "id": "7GH11210R57524710",
+    "id": "6HY98902BW978270C",
     "status": "COMPLETED",
     "amount": 125,
     "fee": 3.73,
-    "captureId": "890395573F927761V"
+    "captureId": "3GL6796366030915C"
    }
   },
   "GET /v1/payments/payouts/{id}": {
    "status": 200,
-   "debugId": "f312141069749",
+   "debugId": "f9451843c1068",
    "body": {
     "total_items": 1,
     "total_pages": 1,
     "batch_header": {
-     "payout_batch_id": "D5ABM2RPPQ8M4",
+     "payout_batch_id": "ZEMTDYDDGPQG4",
      "batch_status": "PROCESSING",
-     "time_created": "2026-11-11T20:56:57Z",
+     "time_created": "2026-11-11T21:53:38Z",
      "sender_batch_header": {
-      "sender_batch_id": "payday-PD-J-4001-QKAHHI",
+      "sender_batch_id": "payday-PD-J-4001-7WP1D3",
       "email_subject": "TidyNest paid you for today's job",
       "email_message": "Your job was verified and paid the same day through Payday."
      },
@@ -87,15 +87,15 @@
     },
     "items": [
      {
-      "payout_item_id": "ND6L5M86RZQ48",
-      "transaction_id": "59V894704E736494E",
-      "activity_id": "66069998P5550973D",
+      "payout_item_id": "42ZXRB7K5FUDS",
+      "transaction_id": "40L70745LT538042K",
+      "activity_id": "1RD70178DU111651P",
       "transaction_status": "SUCCESS",
       "payout_item_fee": {
        "currency": "USD",
        "value": "0.25"
       },
-      "payout_batch_id": "D5ABM2RPPQ8M4",
+      "payout_batch_id": "ZEMTDYDDGPQG4",
       "payout_item": {
        "recipient_type": "EMAIL",
        "amount": {
@@ -104,14 +104,14 @@
        },
        "note": "J-4001 Standard clean",
        "receiver": "hackpp-worker1-d173@personal.example.com",
-       "sender_item_id": "PD-J-4001-QKAHHI",
+       "sender_item_id": "PD-J-4001-7WP1D3",
        "recipient_wallet": "PAYPAL",
        "purpose": "GOODS"
       },
-      "time_processed": "2026-11-11T20:57:13Z",
+      "time_processed": "2026-11-11T21:53:54Z",
       "links": [
        {
-        "href": "https://api.sandbox.paypal.com/v1/payments/payouts-item/ND6L5M86RZQ48",
+        "href": "https://api.sandbox.paypal.com/v1/payments/payouts-item/42ZXRB7K5FUDS",
         "rel": "item",
         "method": "GET",
         "encType": "application/json"
@@ -121,7 +121,7 @@
     ],
     "links": [
      {
-      "href": "https://api.sandbox.paypal.com/v1/payments/payouts/D5ABM2RPPQ8M4?page_size=100&page=1",
+      "href": "https://api.sandbox.paypal.com/v1/payments/payouts/ZEMTDYDDGPQG4?page_size=100&page=1",
       "rel": "self",
       "method": "GET",
       "encType": "application/json"
@@ -131,18 +131,18 @@
   },
   "GET /v1/reporting/transactions": {
    "status": 200,
-   "debugId": "f312141a85c01",
+   "debugId": "f5275160fc8d8",
    "body": {
     "account_number": "LG9XUJWRKCNDY",
-    "start_date": "2026-11-10T20:57:16Z",
-    "end_date": "2026-11-11T18:59:59Z",
-    "last_refreshed_datetime": "2026-11-11T18:59:59Z",
+    "start_date": "2026-11-08T21:54:06Z",
+    "end_date": "2026-11-11T19:59:59Z",
+    "last_refreshed_datetime": "2026-11-11T19:59:59Z",
     "page": 1,
     "total_items": 0,
     "total_pages": 0,
     "links": [
      {
-      "href": "https://api.sandbox.paypal.com/v1/reporting/transactions?end_date=2026-11-11T20%3A57%3A16Z&fields=transaction_info%2Cpayer_info&start_date=2026-11-10T20%3A57%3A16Z&page_size=200&page=1",
+      "href": "https://api.sandbox.paypal.com/v1/reporting/transactions?end_date=2026-11-11T21%3A54%3A06Z&fields=transaction_info%2Cpayer_info&start_date=2026-11-08T21%3A54%3A06Z&page_size=200&page=1",
       "rel": "self",
       "method": "GET",
       "encType": "application/json"
@@ -172,11 +172,61 @@
     "message": "get_merchant_insights is not supported in sandbox mode",
     "type": "paypal_error"
    }
+  },
+  "GET /v1/payments/payouts-item/{id}": {
+   "status": 200,
+   "debugId": "f8570240ebea9",
+   "body": {
+    "payout_item_id": "9DFXRAKRDPWDN",
+    "transaction_id": "4G564543X1663872V",
+    "activity_id": "51A14723GH1756224",
+    "transaction_status": "UNCLAIMED",
+    "payout_item_fee": {
+     "currency": "USD",
+     "value": "0.25"
+    },
+    "payout_batch_id": "H9PGMZMBRJZPU",
+    "sender_batch_id": "payday-seed-261111205116",
+    "payout_item": {
+     "recipient_type": "EMAIL",
+     "amount": {
+      "currency": "USD",
+      "value": "91.00"
+     },
+     "note": "J-3003 Deep clean",
+     "receiver": "hackpp-worker3-d173@pesronal.example.com",
+     "sender_item_id": "SEED-D-261111205116",
+     "recipient_wallet": "PAYPAL",
+     "purpose": "GOODS"
+    },
+    "time_processed": "2026-11-11T20:51:43Z",
+    "errors": {
+     "name": "RECEIVER_UNREGISTERED",
+     "message": "The recipient for this payout does not have an account. A link to sign up for an account was sent to the recipient. However, if the recipient does not claim this payout within 30 days, the funds will be returned to your account.",
+     "information_link": "https://developer.paypal.com/docs/api/payments.payouts-batch/#errors",
+     "details": [],
+     "links": []
+    },
+    "links": [
+     {
+      "href": "https://api.sandbox.paypal.com/v1/payments/payouts-item/9DFXRAKRDPWDN",
+      "rel": "self",
+      "method": "GET",
+      "encType": "application/json"
+     },
+     {
+      "href": "https://api.sandbox.paypal.com/v1/payments/payouts/H9PGMZMBRJZPU",
+      "rel": "batch",
+      "method": "GET",
+      "encType": "application/json"
+     }
+    ]
+   }
   }
  },
  "ai": {
   "vision:/photos/kitchen-1.png": {
-   "text": "```json\n{\"room\": \"kitchen\", \"tidy\": true, \"note\": \"The kitchen is clean and organized with no clutter on the counters.\"}\n```",
+   "text": "```json\n{\"room\": \"kitchen\", \"tidy\": true, \"note\": \"A clean and organized kitchen with blue cabinetry.\"}\n```",
    "model": "google/gemma-4-31B-it"
   },
   "vision:/photos/bathroom-1.png": {
@@ -184,15 +234,15 @@
    "model": "google/gemma-4-31B-it"
   },
   "vision:/photos/living-1.png": {
-   "text": "```json\n{\"room\": \"living room\", \"tidy\": true, \"note\": \"The living room is clean and well-organized.\"}\n```",
+   "text": "```json\n{\"room\": \"living room\", \"tidy\": true, \"note\": \"A clean and organized living room with a teal sofa and bookshelf.\"}\n```",
    "model": "google/gemma-4-31B-it"
   },
   "vision:/photos/living-2.png": {
-   "text": "```json\n{\"room\": \"living room\", \"tidy\": true, \"note\": \"The living room is neat with a clean sofa, coffee table, and organized entertainment center.\"}\n```",
+   "text": "```json\n{\"room\": \"living room\", \"tidy\": true, \"note\": \"The living room is neat with a clean floor and organized furniture.\"}\n```",
    "model": "google/gemma-4-31B-it"
   },
   "vision:/photos/bedroom-2.png": {
-   "text": "```json\n{\"room\": \"bedroom\", \"tidy\": true, \"note\": \"The bed is made and the room is neat.\"}\n```",
+   "text": "```json\n{\"room\": \"bedroom\", \"tidy\": true, \"note\": \"The bed is neatly made and the room is organized.\"}\n```",
    "model": "google/gemma-4-31B-it"
   },
   "vision:/photos/kitchen-2.png": {

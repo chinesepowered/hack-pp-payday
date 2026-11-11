@@ -180,7 +180,7 @@ export function WorkerApp() {
         </section>
       )}
 
-      <div ref={resultRef} aria-live="polite" className="scroll-mt-28">
+      <div ref={resultRef} aria-live="polite" className="scroll-mt-48 sm:scroll-mt-24">
         {flow && flowJob && (
           <Card className="mt-5 overflow-hidden" data-testid="flow-card">
             {flow.outcome === 'paid' && flowPayout ? (
