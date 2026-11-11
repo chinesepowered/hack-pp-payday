@@ -226,7 +226,7 @@
  },
  "ai": {
   "vision:/photos/kitchen-1.png": {
-   "text": "```json\n{\"room\": \"kitchen\", \"tidy\": true, \"note\": \"A clean and organized kitchen with blue cabinetry.\"}\n```",
+   "text": "```json\n{\"room\": \"kitchen\", \"tidy\": true, \"note\": \"The kitchen is clean and organized with no clutter on the counters.\"}\n```",
    "model": "google/gemma-4-31B-it"
   },
   "vision:/photos/bathroom-1.png": {
@@ -234,27 +234,67 @@
    "model": "google/gemma-4-31B-it"
   },
   "vision:/photos/living-1.png": {
-   "text": "```json\n{\"room\": \"living room\", \"tidy\": true, \"note\": \"A clean and organized living room with a teal sofa and bookshelf.\"}\n```",
+   "text": "```json\n{\"room\": \"living room\", \"tidy\": true, \"note\": \"The room is clean and well-organized with a tidy sofa and bookshelf.\"}\n```",
    "model": "google/gemma-4-31B-it"
   },
   "vision:/photos/living-2.png": {
-   "text": "```json\n{\"room\": \"living room\", \"tidy\": true, \"note\": \"The living room is neat with a clean floor and organized furniture.\"}\n```",
+   "text": "```json\n{\"room\": \"living room\", \"tidy\": true, \"note\": \"The living room is neat and organized with a clean floor.\"}\n```",
    "model": "google/gemma-4-31B-it"
   },
   "vision:/photos/bedroom-2.png": {
-   "text": "```json\n{\"room\": \"bedroom\", \"tidy\": true, \"note\": \"The bed is neatly made and the room is organized.\"}\n```",
+   "text": "```json\n{\"room\": \"bedroom\", \"tidy\": true, \"note\": \"A clean and organized bedroom with a made bed.\"}\n```",
    "model": "google/gemma-4-31B-it"
   },
   "vision:/photos/kitchen-2.png": {
    "text": "```json\n{\"room\": \"kitchen\", \"tidy\": true, \"note\": \"The kitchen is clean and organized with items neatly placed.\"}\n```",
    "model": "google/gemma-4-31B-it"
   },
-  "anomaly:hours_spike": {
-   "text": "{\n  \"summary\": \"Lena Fischer logged 14 hours across 3 jobs on 2026-11-07, far above her usual 2.5 hour median day. This matters because the payout risk is 392 and the hours may be incorrect.\",\n  \"message\": \"Hi Lena, could you confirm whether the 14 hours across 3 jobs on 2026-11-07 are correct? If not, please send the correct hours so we can review the payout.\"\n}",
+  "vision:/photos/bathroom-2.png": {
+   "text": "```json\n{\"room\": \"bathroom\", \"tidy\": true, \"note\": \"The bathroom is clean and organized.\"}\n```",
+   "model": "google/gemma-4-31B-it"
+  },
+  "vision:/photos/bedroom-1.png": {
+   "text": "```json\n{\"room\": \"bedroom\", \"tidy\": true, \"note\": \"The bedroom is clean and the bed is neatly made.\"}\n```",
+   "model": "google/gemma-4-31B-it"
+  },
+  "vision:/photos/hallway-1.png": {
+   "text": "```json\n{\"room\": \"hallway\", \"tidy\": true, \"note\": \"The entryway is clean and organized with items neatly placed.\"}\n```",
+   "model": "google/gemma-4-31B-it"
+  },
+  "anomaly:duplicate_payout:J-1002": {
+   "text": "{\n  \"summary\": \"Dario Silva was paid $80.00 twice for job J-1002, once on Oct 30 and again on Nov 10. This matters because the second payment appears to be a duplicate and should be reviewed before further payouts.\",\n  \"message\": \"Hi Dario, could you confirm whether you received two $80.00 payments for job J-1002? We are holding the next payout while we review this.\"\n}",
    "model": "Qwen/Qwen3.8-27B"
   },
-  "anomaly:double_booking": {
-   "text": "{\n  \"summary\": \"Maya Okafor has two overlapping jobs on Nov 11, from 10:25 AM to 12:56 PM, at addresses 2.8 km apart. This overlap puts 86 at risk because the payout depends on which job was actually completed.\",\n  \"message\": \"Hi Maya, can you confirm which Nov 11 job you completed, since the records show an overlap from 10:25 AM to 12:56 PM?\"\n}",
+  "anomaly:duplicate_payout:J-1001": {
+   "text": "{\n  \"summary\": \"Maya Okafor was paid $86.00 twice for job J-1001, once on Oct 30 and again on Nov 10. This matters because the second payout appears to be a duplicate and the next payout should be held.\",\n  \"message\": \"Hi Maya, could you confirm whether you received two $86.00 payouts for job J-1001? We will hold your next payout while we review this.\"\n}",
+   "model": "Qwen/Qwen3.8-27B"
+  },
+  "anomaly:duplicate_payout:J-1003": {
+   "text": "{\n  \"summary\": \"Priya Nair was paid $104.00 twice for job J-1003, once on Oct 30 and again on Nov 10. This matters because the second payout appears to be a duplicate and should be reviewed before further payments.\",\n  \"message\": \"Hi Priya, could you confirm whether you received two $104.00 payouts for job J-1003? We are holding the next payout while we review this.\"\n}",
+   "model": "Qwen/Qwen3.8-27B"
+  },
+  "anomaly:duplicate_payout:J-3001": {
+   "text": "{\n  \"summary\": \"Maya Okafor received two $86.00 payouts for job J-3001 on Nov 11 at 12:51 PM. The duplicate payout creates an $86.00 overpayment risk that should be held before the next payout.\",\n  \"message\": \"Hi Maya, we found two $86.00 payouts for job J-3001 on Nov 11 at 12:51 PM. Please confirm whether you received both, and we will hold the next payout while we review.\"\n}",
+   "model": "Qwen/Qwen3.8-27B"
+  },
+  "anomaly:email_change:w2:2026-11-11T18:51:16.632Z": {
+   "text": "{\n  \"summary\": \"Dario Silva changed the payout email to a personal address shortly before the first payout. The change matters because $728.00 was paid to the new email in two payouts.\",\n  \"message\": \"Hi Dario, please confirm whether you changed your payout email to hackpp-worker2-d173@personal.example.com on Nov 11. If you did not, reply right away so we can secure your account.\"\n}",
+   "model": "Qwen/Qwen3.8-27B"
+  },
+  "anomaly:overpayment:SEED-C-261111205116": {
+   "text": "{\n  \"summary\": \"Dario Silva was paid $640.00 on Nov 11, 12:51 PM for a $64.00 job, which is 10.0x the job amount. This leaves $576 at risk, so the next payout should be held.\",\n  \"message\": \"Hi Dario, please confirm whether you received $640.00 on Nov 11. We are holding your next payout while we review the overpayment.\"\n}",
+   "model": "Qwen/Qwen3.8-27B"
+  },
+  "anomaly:unclaimed_aging:SEED-D-261111205116": {
+   "text": "{\n  \"summary\": \"Priya Nair's $91.00 payout was sent to an email that differs from the email on file by 2 characters. The item has been unclaimed for 1.1 h, so the payout may need to be canceled.\",\n  \"message\": \"Hi Priya, your $91.00 payout was sent to an email that differs from your email on file. Please confirm your correct email address so we can cancel the unclaimed item.\"\n}",
+   "model": "Qwen/Qwen3.8-27B"
+  },
+  "anomaly:double_booking:J-2001+J-2002": {
+   "text": "{\n  \"summary\": \"Tomas Reyes was booked for two jobs on Nov 5 that overlapped by 84 minutes at addresses 7.3 km apart. This puts the 75 payout at risk because the jobs may not have been completed as recorded.\",\n  \"message\": \"Hi Tomas, please confirm which of the two Nov 5 jobs you completed, or let us know if another cleaner covered one of them.\"\n}",
+   "model": "Qwen/Qwen3.8-27B"
+  },
+  "anomaly:hours_spike:w5:2026-11-07": {
+   "text": "{\n  \"summary\": \"Lena Fischer logged 14 hours across 3 jobs on 2026-11-07, far above her usual 2.5 hour day. This matters because the payout risk is 392 and the hours need confirmation before payment.\",\n  \"message\": \"Hi Lena, could you confirm that you worked 14 hours across 3 jobs on 2026-11-07? Please reply so we can review the payout.\"\n}",
    "model": "Qwen/Qwen3.8-27B"
   }
  }

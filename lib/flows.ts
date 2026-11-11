@@ -279,7 +279,7 @@ export async function runWatchdog(opts: { explain?: boolean } = {}): Promise<Ano
       const worker = state.workers.find((w) => w.id === a.workerId);
       try {
         const { text, model } = await complete(
-          `anomaly:${a.kind}`,
+          `anomaly:${a.id}`,
           MODELS.text(),
           [
             {

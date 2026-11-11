@@ -41,7 +41,7 @@ function Feed({ props, only }: { props: WidgetProps; only?: string }) {
     );
   }
   return (
-    <div className="h-full space-y-2 overflow-y-auto p-1 pr-2" data-testid={only ? 'widget-unclaimed-actions' : 'widget-anomaly-feed'} aria-live="polite">
+    <div tabIndex={0} role="region" aria-label={only ? 'Unclaimed payout actions' : 'Anomaly feed'} className="h-full space-y-2 overflow-y-auto p-1 pr-2" data-testid={only ? 'widget-unclaimed-actions' : 'widget-anomaly-feed'} aria-live="polite">
       {[...open, ...done].map((a) => (
         <AnomalyCard key={a.id} anomaly={a} worker={name(a.workerId)} compact onChanged={() => props.context.store.reload()} />
       ))}
@@ -93,7 +93,7 @@ function TimeToPayWidget(props: WidgetProps) {
   const payday = paid.filter((p) => p.channel === 'payday').map((p) => p.secondsToPay!);
   const manual = paid.filter((p) => p.channel === 'manual batch').map((p) => p.secondsToPay!);
   return (
-    <div className="flex h-full flex-col gap-3 overflow-y-auto p-2" data-testid="widget-time-to-pay">
+    <div tabIndex={0} role="region" aria-label="Time to pay distribution" className="flex h-full flex-col gap-3 overflow-y-auto p-2" data-testid="widget-time-to-pay">
       <div className="grid grid-cols-2 gap-2">
         <div className="rounded-lg bg-pd-highlight p-2">
           <p className="text-[11px] font-semibold uppercase text-pd-teal-dark">Payday median</p>
@@ -129,7 +129,7 @@ function WorkerEarningsWidget(props: WidgetProps) {
   const [now] = useState(() => Date.now());
   const days = Array.from({ length: 14 }, (_, i) => ptDay(new Date(now - (13 - i) * 86_400_000).toISOString()));
   return (
-    <div className="grid h-full auto-rows-min gap-2 overflow-y-auto p-2 sm:grid-cols-2" data-testid="widget-worker-earnings">
+    <div tabIndex={0} role="region" aria-label="Worker earnings" className="grid h-full auto-rows-min gap-2 overflow-y-auto p-2 sm:grid-cols-2" data-testid="widget-worker-earnings">
       {rows.map((w) => {
         const mine = state.payouts.filter((p) => p.workerId === w.id && !isDead(p));
         const perDay = days.map((d) => mine.filter((p) => ptDay(p.createdAt) === d).reduce((s, p) => s + p.amount, 0));

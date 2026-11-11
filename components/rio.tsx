@@ -15,6 +15,8 @@ export function Rio({
   title?: string;
 }) {
   const label = title ?? 'Rio the capybara courier';
+  // An empty title marks Rio as decoration (next to text that already says the same thing).
+  const decorative = title === '';
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -22,10 +24,11 @@ export function Rio({
       width={size}
       height={size}
       className={className}
-      role="img"
-      aria-label={label}
+      role={decorative ? undefined : 'img'}
+      aria-label={decorative ? undefined : label}
+      aria-hidden={decorative || undefined}
     >
-      <title>{label}</title>
+      {!decorative && <title>{label}</title>}
       {/* feet, body, satchel with envelope */}
       <ellipse cx="100" cy="190" rx="54" ry="6" fill="#0B2A33" opacity="0.12"/>
       <ellipse cx="80" cy="185" rx="16" ry="8" fill="#8A5A3C"/>
