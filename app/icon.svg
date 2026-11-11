@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="42 8 116 116" width="64" height="64" role="img" aria-label="Rio the capybara courier">
+<rect x="42" y="8" width="116" height="116" rx="26" fill="#F4EDE4"/>
+<circle cx="59" cy="51" r="10" fill="#8A5A3C"/>
+<circle cx="141" cy="51" r="10" fill="#8A5A3C"/>
+<circle cx="59" cy="52" r="5" fill="#C9966B"/>
+<circle cx="141" cy="52" r="5" fill="#C9966B"/>
+<rect x="54" y="38" width="92" height="80" rx="36" fill="#A9744F"/>
+<rect x="67" y="77" width="66" height="40" rx="20" fill="#C9966B"/>
+<rect x="83" y="80" width="34" height="15" rx="7.5" fill="#8A5A3C"/>
+<ellipse cx="92" cy="88" rx="3.2" ry="2.4" fill="#0B2A33"/>
+<ellipse cx="108" cy="88" rx="3.2" ry="2.4" fill="#0B2A33"/>
+<circle cx="69" cy="93" r="5.5" fill="#E8875B" opacity="0.45"/>
+<circle cx="131" cy="93" r="5.5" fill="#E8875B" opacity="0.45"/>
+<path d="M64 47 Q64 15 100 15 Q136 15 136 47 Z" fill="#0F766E"/>
+<path d="M66 40 Q100 31 134 40 L135 47 L65 47 Z" fill="#0B5750"/>
+<path d="M57 48 Q100 37 143 48 Q100 60 57 48 Z" fill="#0B2A33"/>
+<circle cx="100" cy="29" r="8.5" fill="#F59E0B" stroke="#B45309" stroke-width="1.5"/>
+<circle cx="100" cy="29" r="4.6" fill="none" stroke="#FDE68A" stroke-width="1.6"/>
+<circle cx="76" cy="70" r="4.8" fill="#0B2A33"/>
+<circle cx="124" cy="70" r="4.8" fill="#0B2A33"/>
+<circle cx="77.6" cy="68.4" r="1.6" fill="#FFFFFF"/>
+<circle cx="125.6" cy="68.4" r="1.6" fill="#FFFFFF"/>
+<path d="M100 95 V101 M100 101 Q94 107 88 103 M100 101 Q106 107 112 103" fill="none" stroke="#0B2A33" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

@@ -1,0 +1,211 @@
+{
+ "paypal": {
+  "GET /v1/reporting/balances": {
+   "status": 200,
+   "debugId": "f312141d0d97f",
+   "body": {
+    "balances": [
+     {
+      "currency": "USD",
+      "total_balance": {
+       "currency_code": "USD",
+       "value": "5000.00"
+      },
+      "available_balance": {
+       "currency_code": "USD",
+       "value": "5000.00"
+      },
+      "withheld_balance": {
+       "currency_code": "USD",
+       "value": "0.00"
+      }
+     }
+    ],
+    "account_id": "LG9XUJWRKCNDY",
+    "as_of_time": "2026-11-11T18:59:59Z",
+    "last_refresh_time": "2026-11-11T18:59:59Z"
+   }
+  },
+  "POST /v1/payments/payouts": {
+   "status": 201,
+   "debugId": "ca59034dc0b56",
+   "body": {
+    "batch_header": {
+     "payout_batch_id": "D5ABM2RPPQ8M4",
+     "batch_status": "PENDING",
+     "sender_batch_header": {
+      "sender_batch_id": "payday-PD-J-4001-QKAHHI",
+      "email_subject": "TidyNest paid you for today's job",
+      "email_message": "Your job was verified and paid the same day through Payday."
+     }
+    },
+    "links": [
+     {
+      "href": "https://api.sandbox.paypal.com/v1/payments/payouts/D5ABM2RPPQ8M4",
+      "rel": "self",
+      "method": "GET",
+      "encType": "application/json"
+     }
+    ]
+   }
+  },
+  "POST /v2/checkout/orders": {
+   "status": 201,
+   "debugId": "f512832552bbd",
+   "body": {
+    "id": "7GH11210R57524710",
+    "status": "COMPLETED",
+    "amount": 125,
+    "fee": 3.73,
+    "captureId": "890395573F927761V"
+   }
+  },
+  "GET /v1/payments/payouts/{id}": {
+   "status": 200,
+   "debugId": "f312141069749",
+   "body": {
+    "total_items": 1,
+    "total_pages": 1,
+    "batch_header": {
+     "payout_batch_id": "D5ABM2RPPQ8M4",
+     "batch_status": "PROCESSING",
+     "time_created": "2026-11-11T20:56:57Z",
+     "sender_batch_header": {
+      "sender_batch_id": "payday-PD-J-4001-QKAHHI",
+      "email_subject": "TidyNest paid you for today's job",
+      "email_message": "Your job was verified and paid the same day through Payday."
+     },
+     "funding_source": "BALANCE",
+     "amount": {
+      "currency": "USD",
+      "value": "86.00"
+     },
+     "fees": {
+      "currency": "USD",
+      "value": "0.25"
+     }
+    },
+    "items": [
+     {
+      "payout_item_id": "ND6L5M86RZQ48",
+      "transaction_id": "59V894704E736494E",
+      "activity_id": "66069998P5550973D",
+      "transaction_status": "SUCCESS",
+      "payout_item_fee": {
+       "currency": "USD",
+       "value": "0.25"
+      },
+      "payout_batch_id": "D5ABM2RPPQ8M4",
+      "payout_item": {
+       "recipient_type": "EMAIL",
+       "amount": {
+        "currency": "USD",
+        "value": "86.00"
+       },
+       "note": "J-4001 Standard clean",
+       "receiver": "hackpp-worker1-d173@personal.example.com",
+       "sender_item_id": "PD-J-4001-QKAHHI",
+       "recipient_wallet": "PAYPAL",
+       "purpose": "GOODS"
+      },
+      "time_processed": "2026-11-11T20:57:13Z",
+      "links": [
+       {
+        "href": "https://api.sandbox.paypal.com/v1/payments/payouts-item/ND6L5M86RZQ48",
+        "rel": "item",
+        "method": "GET",
+        "encType": "application/json"
+       }
+      ]
+     }
+    ],
+    "links": [
+     {
+      "href": "https://api.sandbox.paypal.com/v1/payments/payouts/D5ABM2RPPQ8M4?page_size=100&page=1",
+      "rel": "self",
+      "method": "GET",
+      "encType": "application/json"
+     }
+    ]
+   }
+  },
+  "GET /v1/reporting/transactions": {
+   "status": 200,
+   "debugId": "f312141a85c01",
+   "body": {
+    "account_number": "LG9XUJWRKCNDY",
+    "start_date": "2026-11-10T20:57:16Z",
+    "end_date": "2026-11-11T18:59:59Z",
+    "last_refreshed_datetime": "2026-11-11T18:59:59Z",
+    "page": 1,
+    "total_items": 0,
+    "total_pages": 0,
+    "links": [
+     {
+      "href": "https://api.sandbox.paypal.com/v1/reporting/transactions?end_date=2026-11-11T20%3A57%3A16Z&fields=transaction_info%2Cpayer_info&start_date=2026-11-10T20%3A57%3A16Z&page_size=200&page=1",
+      "rel": "self",
+      "method": "GET",
+      "encType": "application/json"
+     }
+    ]
+   }
+  },
+  "toolkit:list_transactions": {
+   "account_number": "LG9XUJWRKCNDY",
+   "start_date": "2026-11-10T20:57:16Z",
+   "end_date": "2026-11-11T18:59:59Z",
+   "last_refreshed_datetime": "2026-11-11T18:59:59Z",
+   "page": 1,
+   "total_items": 0,
+   "total_pages": 0,
+   "links": [
+    {
+     "href": "https://api.sandbox.paypal.com/v1/reporting/transactions?start_date=2026-11-10T20%3A57%3A16.498Z&start_date=2026-11-10T20%3A57%3A16.498Z&end_date=2026-11-11T20%3A57%3A16.498Z&end_date=2026-11-11T20%3A57%3A16.498Z&page_size=100&page=1",
+     "rel": "self",
+     "method": "GET",
+     "encType": "application/json"
+    }
+   ]
+  },
+  "toolkit:get_merchant_insights": {
+   "error": {
+    "message": "get_merchant_insights is not supported in sandbox mode",
+    "type": "paypal_error"
+   }
+  }
+ },
+ "ai": {
+  "vision:/photos/kitchen-1.png": {
+   "text": "```json\n{\"room\": \"kitchen\", \"tidy\": true, \"note\": \"The kitchen is clean and organized with no clutter on the counters.\"}\n```",
+   "model": "google/gemma-4-31B-it"
+  },
+  "vision:/photos/bathroom-1.png": {
+   "text": "```json\n{\"room\": \"bathroom\", \"tidy\": true, \"note\": \"The bathroom is clean and organized.\"}\n```",
+   "model": "google/gemma-4-31B-it"
+  },
+  "vision:/photos/living-1.png": {
+   "text": "```json\n{\"room\": \"living room\", \"tidy\": true, \"note\": \"The living room is clean and well-organized.\"}\n```",
+   "model": "google/gemma-4-31B-it"
+  },
+  "vision:/photos/living-2.png": {
+   "text": "```json\n{\"room\": \"living room\", \"tidy\": true, \"note\": \"The living room is neat with a clean sofa, coffee table, and organized entertainment center.\"}\n```",
+   "model": "google/gemma-4-31B-it"
+  },
+  "vision:/photos/bedroom-2.png": {
+   "text": "```json\n{\"room\": \"bedroom\", \"tidy\": true, \"note\": \"The bed is made and the room is neat.\"}\n```",
+   "model": "google/gemma-4-31B-it"
+  },
+  "vision:/photos/kitchen-2.png": {
+   "text": "```json\n{\"room\": \"kitchen\", \"tidy\": true, \"note\": \"The kitchen is clean and organized with items neatly placed.\"}\n```",
+   "model": "google/gemma-4-31B-it"
+  },
+  "anomaly:hours_spike": {
+   "text": "{\n  \"summary\": \"Lena Fischer logged 14 hours across 3 jobs on 2026-11-07, far above her usual 2.5 hour median day. This matters because the payout risk is 392 and the hours may be incorrect.\",\n  \"message\": \"Hi Lena, could you confirm whether the 14 hours across 3 jobs on 2026-11-07 are correct? If not, please send the correct hours so we can review the payout.\"\n}",
+   "model": "Qwen/Qwen3.8-27B"
+  },
+  "anomaly:double_booking": {
+   "text": "{\n  \"summary\": \"Maya Okafor has two overlapping jobs on Nov 11, from 10:25 AM to 12:56 PM, at addresses 2.8 km apart. This overlap puts 86 at risk because the payout depends on which job was actually completed.\",\n  \"message\": \"Hi Maya, can you confirm which Nov 11 job you completed, since the records show an overlap from 10:25 AM to 12:56 PM?\"\n}",
+   "model": "Qwen/Qwen3.8-27B"
+  }
+ }
+}

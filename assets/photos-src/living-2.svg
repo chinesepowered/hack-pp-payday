@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="768" viewBox="0 0 1024 768">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#F9D7A8"/><stop offset="1" stop-color="#FFF3DD"/>
+    </linearGradient>
+    <linearGradient id="floor" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#8E8F92"/><stop offset="1" stop-color="#77787C"/>
+    </linearGradient>
+    <linearGradient id="screen" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#2B3138"/><stop offset="1" stop-color="#12161A"/>
+    </linearGradient>
+  </defs>
+  <rect width="1024" height="768" fill="#44566A"/>
+  <rect y="550" width="1024" height="218" fill="url(#floor)"/>
+  <rect y="540" width="1024" height="12" fill="#E9E4DA"/>
+  <!-- wide window in the centre with sheer blinds -->
+  <rect x="390" y="90" width="250" height="250" rx="4" fill="#F4EFE6"/>
+  <rect x="402" y="102" width="226" height="226" fill="url(#sky)"/>
+  <path d="M477 102V328M553 102V328" stroke="#F4EFE6" stroke-width="7"/>
+  <path d="M402 300 Q460 270 515 292 Q570 262 628 288V328H402Z" fill="#C7A77A"/>
+  <rect x="382" y="336" width="266" height="12" fill="#F4EFE6"/>
+  <!-- TV on wall with low TV stand (right) -->
+  <rect x="690" y="210" width="300" height="176" rx="8" fill="#0C0F12"/>
+  <rect x="698" y="218" width="284" height="160" rx="4" fill="url(#screen)"/>
+  <path d="M720 360L800 232M756 366L822 262" stroke="#FFFFFF" stroke-width="8" stroke-linecap="round" opacity="0.12"/>
+  <rect x="670" y="450" width="340" height="86" rx="6" fill="#D8C3A5"/>
+  <rect x="680" y="460" width="104" height="66" rx="3" fill="#C7AD89"/><rect x="788" y="460" width="104" height="66" fill="#3A4856"/><rect x="896" y="460" width="104" height="66" rx="3" fill="#C7AD89"/>
+  <rect x="800" y="484" width="80" height="12" rx="2" fill="#12161A"/><circle cx="868" cy="490" r="3" fill="#6EE7B7"/>
+  <circle cx="770" cy="493" r="5" fill="#44566A"/><circle cx="910" cy="493" r="5" fill="#44566A"/>
+  <path d="M690 536L684 560M990 536L996 560" stroke="#8A6A48" stroke-width="7" stroke-linecap="round"/>
+  <rect x="690" y="416" width="26" height="34" rx="4" fill="#E9E4DA"/><rect x="722" y="424" width="50" height="26" rx="13" fill="#D9A441"/>
+  <rect x="940" y="400" width="44" height="50" rx="6" fill="#1D2329"/><circle cx="962" cy="434" r="11" fill="#3A4856"/><circle cx="962" cy="412" r="5" fill="#3A4856"/>
+  <!-- wall art (left) -->
+  <rect x="80" y="110" width="250" height="150" fill="#E9E4DA" stroke="#D9A441" stroke-width="6"/>
+  <path d="M90 250 Q150 150 205 220 Q250 170 320 250Z" fill="#C0694A"/><circle cx="270" cy="156" r="20" fill="#D9A441"/>
+  <!-- mustard sofa (left) -->
+  <rect x="50" y="340" width="330" height="150" rx="18" fill="#C48E2E"/>
+  <rect x="30" y="410" width="48" height="140" rx="16" fill="#D9A441"/><rect x="352" y="410" width="48" height="140" rx="16" fill="#D9A441"/>
+  <rect x="72" y="456" width="286" height="50" rx="12" fill="#D9A441"/>
+  <path d="M167 458V504M262 458V504" stroke="#B37F25" stroke-width="3"/>
+  <rect x="72" y="502" width="286" height="46" fill="#C48E2E"/>
+  <path d="M52 550L46 574M378 550L384 574" stroke="#3B2A1C" stroke-width="7" stroke-linecap="round"/>
+  <rect x="84" y="392" width="74" height="70" rx="14" fill="#E9E4DA"/><rect x="272" y="392" width="74" height="70" rx="14" fill="#44566A"/>
+  <!-- round rug and round coffee table -->
+  <ellipse cx="470" cy="676" rx="330" ry="70" fill="#E9E4DA"/>
+  <ellipse cx="470" cy="676" rx="296" ry="58" fill="none" stroke="#C0694A" stroke-width="6"/>
+  <ellipse cx="470" cy="676" rx="250" ry="44" fill="none" stroke="#44566A" stroke-width="3"/>
+  <path d="M380 634L366 700M560 634L574 700M470 640V712" stroke="#1D2329" stroke-width="7" stroke-linecap="round"/>
+  <ellipse cx="470" cy="628" rx="130" ry="24" fill="#F6F2EA" stroke="#CFC8BA" stroke-width="3"/>
+  <rect x="404" y="606" width="76" height="12" rx="2" fill="#C0694A"/><rect x="410" y="596" width="64" height="10" rx="2" fill="#44566A"/>
+  <path d="M510 590H552V612 Q552 620 544 620H518 Q510 620 510 612Z" fill="#3F7F6A"/>
+  <g fill="#F4B6A8"><circle cx="520" cy="574" r="10"/><circle cx="536" cy="566" r="11"/><circle cx="546" cy="578" r="9"/></g>
+  <!-- monstera style plant in the corner between window and TV -->
+  <path d="M610 470H676L668 540H618Z" fill="#E9E4DA"/>
+  <path d="M643 470V380" stroke="#3E6B4C" stroke-width="6"/>
+  <g fill="#4F8A61"><ellipse cx="616" cy="400" rx="18" ry="44" transform="rotate(-36 616 400)"/><ellipse cx="670" cy="400" rx="18" ry="44" transform="rotate(36 670 400)"/><ellipse cx="643" cy="362" rx="20" ry="48"/><ellipse cx="610" cy="446" rx="14" ry="34" transform="rotate(-64 610 446)"/><ellipse cx="676" cy="446" rx="14" ry="34" transform="rotate(64 676 446)"/></g>
+  <!-- arc floor lamp over sofa -->
+  <path d="M420 548V260 Q420 180 320 190" fill="none" stroke="#1D2329" stroke-width="6" stroke-linecap="round"/>
+  <ellipse cx="420" cy="550" rx="28" ry="6" fill="#1D2329"/>
+  <path d="M286 222 Q316 160 346 222Z" fill="#F6F2EA"/>
+</svg>

@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="768" viewBox="0 0 1024 768">
+  <defs>
+    <pattern id="tile" width="44" height="44" patternUnits="userSpaceOnUse">
+      <rect width="44" height="44" fill="#F3E9D8"/>
+      <rect x="2" y="2" width="40" height="40" fill="#FBF5EA"/>
+    </pattern>
+    <pattern id="floor" width="120" height="80" patternUnits="userSpaceOnUse">
+      <rect width="120" height="80" fill="#E9E2D6"/>
+      <rect width="60" height="40" fill="#4A5A50"/><rect x="60" y="40" width="60" height="40" fill="#4A5A50"/>
+    </pattern>
+    <linearGradient id="wood" x1="0" x2="1">
+      <stop offset="0" stop-color="#C58F5C"/><stop offset="1" stop-color="#B07A48"/>
+    </linearGradient>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FCE7B8"/><stop offset="1" stop-color="#FFF7E3"/>
+    </linearGradient>
+  </defs>
+  <rect width="1024" height="768" fill="#F1E6D3"/>
+  <rect y="560" width="1024" height="208" fill="url(#floor)"/>
+  <!-- backsplash -->
+  <rect x="220" y="250" width="780" height="150" fill="url(#tile)"/>
+  <!-- fridge on the left, cream retro -->
+  <rect x="40" y="110" width="170" height="446" rx="18" fill="#F7F1E4" stroke="#CFC4AE" stroke-width="3"/>
+  <path d="M40 250H210" stroke="#CFC4AE" stroke-width="4"/>
+  <rect x="180" y="170" width="10" height="64" rx="5" fill="#B8AE9A"/><rect x="180" y="270" width="10" height="110" rx="5" fill="#B8AE9A"/>
+  <rect x="56" y="556" width="138" height="8" fill="#3A3F3A"/>
+  <!-- open shelves with dishes -->
+  <rect x="236" y="150" width="250" height="12" fill="url(#wood)"/>
+  <g fill="#FFFFFF" stroke="#D8CDB8" stroke-width="2">
+    <rect x="252" y="134" width="70" height="6" rx="3"/><rect x="254" y="126" width="66" height="6" rx="3"/><rect x="256" y="118" width="62" height="6" rx="3"/><rect x="258" y="110" width="58" height="6" rx="3"/>
+    <path d="M340 120H392 Q390 150 366 150 Q342 150 340 120Z"/>
+  </g>
+  <g fill="#D97B4F"><rect x="410" y="112" width="26" height="38" rx="4"/><rect x="444" y="112" width="26" height="38" rx="4"/></g>
+  <!-- green upper cabinets -->
+  <rect x="820" y="60" width="180" height="180" fill="#52705C"/>
+  <rect x="828" y="68" width="80" height="164" rx="3" fill="#648670"/><rect x="912" y="68" width="80" height="164" rx="3" fill="#648670"/>
+  <circle cx="898" cy="210" r="5" fill="#D9B46A"/><circle cx="922" cy="210" r="5" fill="#D9B46A"/>
+  <!-- hood over the stove -->
+  <rect x="566" y="40" width="68" height="120" fill="#3A3F3A"/>
+  <path d="M520 160H680L700 206H500Z" fill="#3A3F3A"/>
+  <!-- window over sink -->
+  <!-- lower cabinets -->
+  <rect x="220" y="420" width="780" height="130" fill="#52705C"/>
+  <rect x="220" y="550" width="780" height="12" fill="#2C3A31"/>
+  <g fill="#648670">
+    <rect x="228" y="430" width="126" height="112" rx="3"/><rect x="360" y="430" width="126" height="112" rx="3"/>
+    <rect x="718" y="430" width="134" height="112" rx="3"/><rect x="858" y="430" width="134" height="112" rx="3"/>
+  </g>
+  <g fill="#D9B46A"><circle cx="342" cy="446" r="5"/><circle cx="372" cy="446" r="5"/><circle cx="840" cy="446" r="5"/><circle cx="870" cy="446" r="5"/></g>
+  <!-- range cooker -->
+  <rect x="500" y="404" width="200" height="150" fill="#2B2F2C"/>
+  <rect x="500" y="404" width="200" height="34" fill="#1C1F1D"/>
+  <g fill="#D9B46A"><circle cx="526" cy="421" r="8"/><circle cx="556" cy="421" r="8"/><circle cx="600" cy="421" r="8"/><circle cx="644" cy="421" r="8"/><circle cx="674" cy="421" r="8"/></g>
+  <rect x="516" y="452" width="168" height="7" rx="3" fill="#D9B46A"/>
+  <rect x="516" y="470" width="168" height="72" rx="6" fill="#111312"/>
+  <rect x="526" y="478" width="148" height="56" rx="4" fill="#3B423E"/>
+  <g fill="#111312"><rect x="514" y="394" width="74" height="10" rx="3"/><rect x="612" y="394" width="74" height="10" rx="3"/></g>
+  <!-- kettle on the hob -->
+  <path d="M624 394V366 Q624 348 650 348 Q676 348 676 366V394Z" fill="#D9B46A"/>
+  <path d="M630 350 Q650 318 670 350" fill="none" stroke="#2B2F2C" stroke-width="6"/>
+  <path d="M624 372L606 360" stroke="#D9B46A" stroke-width="9" stroke-linecap="round"/>
+  <!-- wooden worktop -->
+  <rect x="214" y="398" width="286" height="24" fill="url(#wood)"/>
+  <rect x="700" y="398" width="306" height="24" fill="url(#wood)"/>
+  <!-- inset sink with tap -->
+  <rect x="760" y="398" width="170" height="10" fill="#8F979A"/>
+  <rect x="772" y="402" width="146" height="8" fill="#5E6669"/>
+  <path d="M846 398V330 Q846 304 872 304H888V318" fill="none" stroke="#C9A24E" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="806" y="378" width="10" height="20" fill="#C9A24E"/><rect x="798" y="372" width="26" height="8" rx="4" fill="#C9A24E"/>
+  <!-- dish rack with plates -->
+  <g fill="none" stroke="#FFFFFF" stroke-width="6"><path d="M944 398V356M958 398V356M972 398V356M986 398V356"/></g>
+  <path d="M936 392H996" stroke="#8F979A" stroke-width="6"/>
+  <!-- jars, toaster, herb pot -->
+  <rect x="236" y="340" width="40" height="58" rx="6" fill="#E9DFC9" stroke="#CFC4AE" stroke-width="2"/><rect x="238" y="332" width="36" height="10" rx="3" fill="#B07A48"/>
+  <rect x="284" y="352" width="34" height="46" rx="6" fill="#E9DFC9" stroke="#CFC4AE" stroke-width="2"/><rect x="286" y="344" width="30" height="10" rx="3" fill="#B07A48"/>
+  <rect x="344" y="350" width="92" height="48" rx="10" fill="#D97B4F"/>
+  <rect x="358" y="344" width="28" height="8" fill="#2B2F2C"/><rect x="394" y="344" width="28" height="8" fill="#2B2F2C"/>
+  <path d="M454 372H488L484 398H458Z" fill="#B5623C"/>
+  <g fill="#6FA35C"><ellipse cx="462" cy="358" rx="9" ry="14"/><ellipse cx="478" cy="354" rx="9" ry="16"/><ellipse cx="470" cy="346" rx="8" ry="14"/></g>
+  <rect x="720" y="352" width="26" height="46" rx="6" fill="#7FB3A3"/><rect x="727" y="338" width="12" height="16" fill="#F7F1E4"/>
+  <!-- pendant lights -->
+  <g stroke="#3A3F3A" stroke-width="3"><path d="M300 0V40M410 0V40"/></g>
+  <path d="M276 76 Q300 30 324 76Z" fill="#D9B46A"/><path d="M386 76 Q410 30 434 76Z" fill="#D9B46A"/>
+  <!-- window -->
+  <rect x="716" y="70" width="90" height="170" rx="4" fill="#FFFFFF"/>
+  <rect x="726" y="80" width="70" height="150" fill="url(#sky)"/>
+  <path d="M726 155H796" stroke="#FFFFFF" stroke-width="6"/>
+  <!-- kitchen island in the foreground -->
+  <rect x="250" y="610" width="520" height="22" fill="url(#wood)"/>
+  <rect x="270" y="632" width="480" height="136" fill="#F7F1E4"/>
+  <path d="M430 632V768M590 632V768" stroke="#D8CDB8" stroke-width="3"/>
+  <g fill="#D9B46A"><rect x="330" y="650" width="44" height="6" rx="3"/><rect x="488" y="650" width="44" height="6" rx="3"/><rect x="648" y="650" width="44" height="6" rx="3"/></g>
+  <path d="M440 590H560 Q556 610 500 610 Q444 610 440 590Z" fill="#FFFFFF" stroke="#D8CDB8" stroke-width="2"/>
+  <circle cx="474" cy="582" r="14" fill="#F2C94C"/><circle cx="500" cy="578" r="15" fill="#F2C94C"/><circle cx="526" cy="582" r="14" fill="#E2574C"/>
+  <rect x="640" y="598" width="90" height="12" rx="3" fill="#8A5A3C"/>
+</svg>

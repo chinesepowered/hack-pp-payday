@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="512" height="512" role="img" aria-label="Rio the capybara courier">
+<ellipse cx="100" cy="190" rx="54" ry="6" fill="#0B2A33" opacity="0.12"/>
+<ellipse cx="80" cy="185" rx="16" ry="8" fill="#8A5A3C"/>
+<ellipse cx="120" cy="185" rx="16" ry="8" fill="#8A5A3C"/>
+<ellipse cx="100" cy="148" rx="46" ry="40" fill="#A9744F"/>
+<ellipse cx="100" cy="156" rx="27" ry="26" fill="#C9966B"/>
+<path d="M136 112 L62 160" stroke="#0F766E" stroke-width="7" stroke-linecap="round"/>
+<path d="M136 112 L62 160" stroke="#0B5750" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="1 6" opacity="0.7"/>
+<g transform="rotate(-12 62 150)">
+<rect x="49" y="137" width="27" height="20" rx="2" fill="#FFFDF8" stroke="#0B2A33" stroke-width="1.6"/>
+<path d="M49.5 138 L62.5 148 L75.5 138" fill="none" stroke="#0B2A33" stroke-width="1.6" stroke-linejoin="round"/>
+</g>
+<rect x="40" y="150" width="42" height="31" rx="7" fill="#0F766E"/>
+<path d="M40 157 a7 7 0 0 1 7 -7 h28 a7 7 0 0 1 7 7 v7 q-21 10 -42 0 z" fill="#0B5750"/>
+<circle cx="61" cy="168" r="3.2" fill="#F59E0B"/>
+<circle cx="59" cy="51" r="10" fill="#8A5A3C"/>
+<circle cx="141" cy="51" r="10" fill="#8A5A3C"/>
+<circle cx="59" cy="52" r="5" fill="#C9966B"/>
+<circle cx="141" cy="52" r="5" fill="#C9966B"/>
+<rect x="54" y="38" width="92" height="80" rx="36" fill="#A9744F"/>
+<rect x="67" y="77" width="66" height="40" rx="20" fill="#C9966B"/>
+<rect x="83" y="80" width="34" height="15" rx="7.5" fill="#8A5A3C"/>
+<ellipse cx="92" cy="88" rx="3.2" ry="2.4" fill="#0B2A33"/>
+<ellipse cx="108" cy="88" rx="3.2" ry="2.4" fill="#0B2A33"/>
+<circle cx="69" cy="93" r="5.5" fill="#E8875B" opacity="0.45"/>
+<circle cx="131" cy="93" r="5.5" fill="#E8875B" opacity="0.45"/>
+<path d="M64 47 Q64 15 100 15 Q136 15 136 47 Z" fill="#0F766E"/>
+<path d="M66 40 Q100 31 134 40 L135 47 L65 47 Z" fill="#0B5750"/>
+<path d="M57 48 Q100 37 143 48 Q100 60 57 48 Z" fill="#0B2A33"/>
+<circle cx="100" cy="29" r="8.5" fill="#F59E0B" stroke="#B45309" stroke-width="1.5"/>
+<circle cx="100" cy="29" r="4.6" fill="none" stroke="#FDE68A" stroke-width="1.6"/>
+<circle cx="76" cy="70" r="4.8" fill="#0B2A33"/>
+<circle cx="124" cy="70" r="4.8" fill="#0B2A33"/>
+<circle cx="77.6" cy="68.4" r="1.6" fill="#FFFFFF"/>
+<circle cx="125.6" cy="68.4" r="1.6" fill="#FFFFFF"/>
+<path d="M100 95 V101 M100 101 Q94 107 88 103 M100 101 Q106 107 112 103" fill="none" stroke="#0B2A33" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M60 130 Q49 143 55 157" fill="none" stroke="#8A5A3C" stroke-width="14" stroke-linecap="round"/>
+<path d="M140 131 Q160 124 165 98" fill="none" stroke="#8A5A3C" stroke-width="14" stroke-linecap="round"/>
+<path d="M177 84 q6 7 4 16 M184 76 q10 11 6 27" fill="none" stroke="#0F766E" stroke-width="2.6" stroke-linecap="round"/>
+</svg>

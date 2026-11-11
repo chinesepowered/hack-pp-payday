@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="768" viewBox="0 0 1024 768">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FAD9B0"/><stop offset="1" stop-color="#FFF4E0"/>
+    </linearGradient>
+    <linearGradient id="carpet" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#C9B8A6"/><stop offset="1" stop-color="#B8A592"/>
+    </linearGradient>
+  </defs>
+  <rect width="1024" height="768" fill="#E7C9B4"/>
+  <rect y="0" width="1024" height="560" fill="#EBD3C1"/>
+  <rect x="330" y="0" width="694" height="560" fill="#C98263"/>
+  <rect y="560" width="1024" height="208" fill="url(#carpet)"/>
+  <rect y="550" width="1024" height="12" fill="#FBF3EA"/>
+  <!-- white sliding wardrobe (left) -->
+  <rect x="24" y="60" width="290" height="494" fill="#FBF6EF" stroke="#D9CBBB" stroke-width="3"/>
+  <path d="M120 60V554M218 60V554" stroke="#D9CBBB" stroke-width="3"/>
+  <rect x="124" y="64" width="92" height="486" fill="#DDE7E6"/>
+  <path d="M140 500L200 100" stroke="#FFFFFF" stroke-width="10" stroke-linecap="round" opacity="0.7"/>
+  <rect x="104" y="280" width="6" height="60" rx="3" fill="#A08872"/><rect x="228" y="280" width="6" height="60" rx="3" fill="#A08872"/>
+  <!-- window with roller blind (centre) -->
+  <rect x="380" y="90" width="200" height="250" rx="4" fill="#FFFFFF"/>
+  <rect x="392" y="102" width="176" height="226" fill="url(#sky)"/>
+  <rect x="392" y="102" width="176" height="70" fill="#F7EFE3"/>
+  <path d="M392 172H568" stroke="#D9CBBB" stroke-width="4"/>
+  <path d="M480 172V328" stroke="#FFFFFF" stroke-width="7"/>
+  <rect x="372" y="336" width="216" height="12" fill="#FFFFFF"/>
+  <!-- nightstand with lamp between window and bed -->
+  <rect x="396" y="456" width="96" height="84" rx="6" fill="#FBF6EF" stroke="#D9CBBB" stroke-width="3"/>
+  <path d="M396 498H492" stroke="#D9CBBB" stroke-width="3"/>
+  <circle cx="444" cy="478" r="5" fill="#C98263"/><circle cx="444" cy="518" r="5" fill="#C98263"/>
+  <path d="M406 540L400 566M482 540L488 566" stroke="#A9744F" stroke-width="6" stroke-linecap="round"/>
+  <circle cx="436" cy="430" r="26" fill="#3F6B5E"/>
+  <rect x="432" y="386" width="8" height="24" fill="#D9B46A"/>
+  <path d="M404 390L418 340H454L468 390Z" fill="#FFF1C9"/>
+  <rect x="462" y="436" width="24" height="20" rx="3" fill="#FFFFFF" stroke="#D9CBBB" stroke-width="2"/>
+  <!-- bed (right), wooden frame with slatted headboard -->
+  <rect x="520" y="300" width="464" height="14" rx="5" fill="#A9744F"/>
+  <g fill="#A9744F"><rect x="524" y="300" width="14" height="300"/><rect x="966" y="300" width="14" height="300"/>
+  <rect x="584" y="314" width="10" height="130"/><rect x="646" y="314" width="10" height="130"/><rect x="708" y="314" width="10" height="130"/><rect x="770" y="314" width="10" height="130"/><rect x="832" y="314" width="10" height="130"/><rect x="894" y="314" width="10" height="130"/></g>
+  <!-- pillows -->
+  <rect x="548" y="388" width="190" height="78" rx="24" fill="#FFFDF8" stroke="#E2D5C5" stroke-width="3"/>
+  <rect x="766" y="388" width="190" height="78" rx="24" fill="#FFFDF8" stroke="#E2D5C5" stroke-width="3"/>
+  <rect x="696" y="408" width="112" height="62" rx="20" fill="#3F6B5E"/>
+  <!-- duvet and throw -->
+  <rect x="530" y="456" width="444" height="140" rx="14" fill="#FFFDF8" stroke="#E2D5C5" stroke-width="3"/>
+  <path d="M530 494H974" stroke="#E2D5C5" stroke-width="3"/>
+  <path d="M780 500H974V582 Q974 596 960 596H780Z" fill="#D9A441"/>
+  <path d="M800 500V596M830 500V596M860 500V596M890 500V596M920 500V596M950 500V596" stroke="#C48E2E" stroke-width="3"/>
+  <rect x="530" y="596" width="444" height="24" fill="#A9744F"/>
+  <rect x="536" y="620" width="14" height="22" fill="#8A5A3C"/><rect x="954" y="620" width="14" height="22" fill="#8A5A3C"/>
+  <!-- wall shelf with books and a pot above bed -->
+  <rect x="660" y="190" width="240" height="10" fill="#FBF6EF"/>
+  <rect x="676" y="140" width="16" height="50" fill="#3F6B5E"/><rect x="694" y="130" width="14" height="60" fill="#D9A441"/><rect x="710" y="146" width="18" height="44" fill="#FBF6EF"/><rect x="730" y="136" width="12" height="54" fill="#8A5A3C"/>
+  <path d="M840 160H880L874 190H846Z" fill="#FBF6EF"/>
+  <g fill="#5F8F6B"><ellipse cx="850" cy="146" rx="8" ry="20" transform="rotate(-25 850 146)"/><ellipse cx="860" cy="138" rx="8" ry="24"/><ellipse cx="871" cy="146" rx="8" ry="20" transform="rotate(25 871 146)"/></g>
+  <!-- round rug -->
+  <ellipse cx="560" cy="700" rx="300" ry="50" fill="#F5EBDD"/>
+  <ellipse cx="560" cy="700" rx="270" ry="40" fill="none" stroke="#C98263" stroke-width="5"/>
+  <!-- pendant -->
+  <path d="M760 0V44" stroke="#5A4638" stroke-width="3"/>
+  <circle cx="760" cy="70" r="30" fill="#FFF7E6" stroke="#E2D5C5" stroke-width="2"/>
+</svg>

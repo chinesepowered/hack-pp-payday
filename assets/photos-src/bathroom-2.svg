@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="768" viewBox="0 0 1024 768">
+  <defs>
+    <pattern id="tile" width="80" height="36" patternUnits="userSpaceOnUse">
+      <rect width="80" height="36" fill="#E3D3BF"/>
+      <rect x="1.5" y="1.5" width="77" height="33" fill="#F5EBDD"/>
+    </pattern>
+    <pattern id="floor" width="80" height="80" patternUnits="userSpaceOnUse">
+      <rect width="80" height="80" fill="#F2E8DA"/>
+      <path d="M40 0L80 40L40 80L0 40Z" fill="#B5694A"/>
+    </pattern>
+    <linearGradient id="glass" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.75"/><stop offset="1" stop-color="#CFE6EA" stop-opacity="0.45"/>
+    </linearGradient>
+    <linearGradient id="mirror" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#F3F7F4"/><stop offset="1" stop-color="#C6D6CF"/>
+    </linearGradient>
+  </defs>
+  <rect width="1024" height="768" fill="#EFDCCB"/>
+  <rect y="300" width="620" height="290" fill="url(#tile)"/>
+  <rect y="294" width="620" height="8" fill="#B5694A"/>
+  <rect y="590" width="1024" height="178" fill="url(#floor)"/>
+  <!-- walk-in shower on the right: tiled alcove, glass screen, tray -->
+  <rect x="620" y="0" width="404" height="590" fill="url(#tile)"/>
+  <rect x="620" y="576" width="404" height="26" fill="#FFFFFF" stroke="#D8CBB8" stroke-width="3"/>
+  <path d="M920 150V100H820" fill="none" stroke="#3B3B3B" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="770" y="92" width="80" height="16" rx="8" fill="#3B3B3B"/>
+  <rect x="912" y="150" width="16" height="250" rx="8" fill="#3B3B3B"/>
+  <circle cx="920" cy="330" r="16" fill="#3B3B3B"/><rect x="916" y="318" width="8" height="24" rx="4" fill="#D9B46A"/>
+  <!-- shower niche with bottles -->
+  <rect x="690" y="300" width="130" height="80" fill="#D9C4AA"/>
+  <rect x="704" y="330" width="22" height="50" rx="5" fill="#FFFFFF"/><rect x="734" y="340" width="22" height="40" rx="5" fill="#7FA08A"/><rect x="766" y="346" width="34" height="34" rx="8" fill="#D97B4F"/>
+  <!-- glass screen -->
+  <rect x="628" y="60" width="250" height="518" fill="url(#glass)" stroke="#3B3B3B" stroke-width="6"/>
+  <path d="M660 520L760 100M700 540L790 170" stroke="#FFFFFF" stroke-width="8" stroke-linecap="round" opacity="0.6"/>
+  <rect x="872" y="290" width="10" height="70" rx="5" fill="#3B3B3B"/>
+  <!-- toilet on the left (wall hung style with cistern) -->
+  <rect x="60" y="340" width="140" height="130" rx="10" fill="#FFFFFF" stroke="#D8CBB8" stroke-width="3"/>
+  <rect x="54" y="332" width="152" height="16" rx="6" fill="#FFFFFF" stroke="#D8CBB8" stroke-width="3"/>
+  <circle cx="130" cy="340" r="7" fill="#C8C8C8"/>
+  <rect x="66" y="462" width="128" height="18" rx="9" fill="#FFFFFF" stroke="#D8CBB8" stroke-width="3"/>
+  <path d="M74 480H186V498 Q186 544 130 544 Q74 544 74 498Z" fill="#FFFFFF" stroke="#D8CBB8" stroke-width="3"/>
+  <path d="M102 544H158L164 600H96Z" fill="#FFFFFF" stroke="#D8CBB8" stroke-width="3"/>
+  <!-- toilet brush and roll -->
+  <rect x="222" y="556" width="24" height="44" rx="6" fill="#3B3B3B"/><rect x="231" y="510" width="6" height="48" fill="#3B3B3B"/>
+  <rect x="226" y="398" width="40" height="36" rx="7" fill="#FFFFFF" stroke="#D8CBB8" stroke-width="2"/><circle cx="246" cy="410" r="5" fill="#D9C7B0"/>
+  <!-- round mirror -->
+  <circle cx="420" cy="190" r="92" fill="#3B3B3B"/>
+  <circle cx="420" cy="190" r="84" fill="url(#mirror)"/>
+  <path d="M370 230L440 130M400 250L462 164" stroke="#FFFFFF" stroke-width="7" stroke-linecap="round" opacity="0.7"/>
+  <!-- wall lights -->
+  <rect x="296" y="150" width="14" height="70" rx="7" fill="#FFF1C2"/><rect x="530" y="150" width="14" height="70" rx="7" fill="#FFF1C2"/>
+  <!-- pedestal sink -->
+  <path d="M330 410H510V428 Q510 468 420 468 Q330 468 330 428Z" fill="#FFFFFF" stroke="#D8CBB8" stroke-width="3"/>
+  <rect x="322" y="400" width="196" height="16" rx="8" fill="#FFFFFF" stroke="#D8CBB8" stroke-width="3"/>
+  <path d="M396 468H444L452 600H388Z" fill="#FFFFFF" stroke="#D8CBB8" stroke-width="3"/>
+  <path d="M420 400V362 Q420 346 438 346H450V358" fill="none" stroke="#3B3B3B" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="384" y="384" width="10" height="16" fill="#3B3B3B"/><rect x="448" y="384" width="10" height="16" fill="#3B3B3B"/>
+  <rect x="478" y="368" width="22" height="32" rx="6" fill="#7FA08A"/><path d="M489 368V358H500" fill="none" stroke="#3B3B3B" stroke-width="4"/>
+  <!-- wooden towel ladder with towels -->
+  <path d="M540 250L528 600M606 250L618 600" stroke="#B07A48" stroke-width="9" stroke-linecap="round"/>
+  <path d="M538 300H608M535 380H611M532 460H614M530 540H616" stroke="#B07A48" stroke-width="7"/>
+  <rect x="542" y="296" width="62" height="70" rx="4" fill="#B5694A"/><rect x="542" y="350" width="62" height="6" fill="#964F34"/>
+  <rect x="538" y="456" width="70" height="66" rx="4" fill="#FBF6EE" stroke="#D8CBB8" stroke-width="2"/><rect x="538" y="504" width="70" height="6" fill="#E3D3BF"/>
+  <!-- plant in basket -->
+  <!-- stool with rolled towels -->
+  <!-- bath mat -->
+  <rect x="330" y="640" width="190" height="80" rx="12" fill="#7FA08A"/>
+  <rect x="344" y="654" width="162" height="52" rx="8" fill="none" stroke="#F2E8DA" stroke-width="4"/>
+  <!-- potted fern on window sill shelf -->
+  <rect x="60" y="250" width="150" height="10" fill="#B07A48"/>
+  <path d="M112 216H158L152 250H118Z" fill="#B5694A"/>
+  <g fill="#6E9A68"><ellipse cx="118" cy="204" rx="10" ry="24" transform="rotate(-30 118 204)"/><ellipse cx="135" cy="194" rx="10" ry="28"/><ellipse cx="152" cy="204" rx="10" ry="24" transform="rotate(30 152 204)"/></g>
+  <rect x="74" y="222" width="26" height="28" rx="4" fill="#FBF6EE" stroke="#D8CBB8" stroke-width="2"/>
+</svg>

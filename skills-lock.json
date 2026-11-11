@@ -1,0 +1,68 @@
+{
+  "version": 2,
+  "skills": {
+    "typescript-authentication": {
+      "source": "context-plugins/plugin-marketplace",
+      "ref": "main",
+      "sourceType": "github",
+      "skillPath": "plugins/paypal/skills/typescript/typescript-authentication/SKILL.md",
+      "computedHash": "179d4834f5fae6fc25de9b98566c02e3d28aa9f7ae890375d3824f60dff0a10f"
+    },
+    "typescript-calling-endpoints": {
+      "source": "context-plugins/plugin-marketplace",
+      "ref": "main",
+      "sourceType": "github",
+      "skillPath": "plugins/paypal/skills/typescript/typescript-calling-endpoints/SKILL.md",
+      "computedHash": "cc03331733372bacaf4104fc311285e6a3a211fb14734b5afe6e3afb6207d542"
+    },
+    "typescript-client-initialization": {
+      "source": "context-plugins/plugin-marketplace",
+      "ref": "main",
+      "sourceType": "github",
+      "skillPath": "plugins/paypal/skills/typescript/typescript-client-initialization/SKILL.md",
+      "computedHash": "cbd9198319fdb5e1f83aee7028a2a822326db3e799f1b8466ec6e6ef838404fc"
+    },
+    "typescript-configuration-resilience": {
+      "source": "context-plugins/plugin-marketplace",
+      "ref": "main",
+      "sourceType": "github",
+      "skillPath": "plugins/paypal/skills/typescript/typescript-configuration-resilience/SKILL.md",
+      "computedHash": "94cdf20389398186c65b56ef64a58b27c480152482eeccb1cc5dbfe04a257c7f"
+    },
+    "typescript-error-handling": {
+      "source": "context-plugins/plugin-marketplace",
+      "ref": "main",
+      "sourceType": "github",
+      "skillPath": "plugins/paypal/skills/typescript/typescript-error-handling/SKILL.md",
+      "computedHash": "86fe2590d512c22341015b7835dcfe582d6552fd5110c071440ddd57818d6b75"
+    },
+    "typescript-getting-started": {
+      "source": "context-plugins/plugin-marketplace",
+      "ref": "main",
+      "sourceType": "github",
+      "skillPath": "plugins/paypal/skills/typescript/typescript-getting-started/SKILL.md",
+      "computedHash": "ea47135924c08dd8f55d10457101098f9966285aa17323ff19f9ba37e732d361"
+    },
+    "typescript-integrate-paypal": {
+      "source": "context-plugins/plugin-marketplace",
+      "ref": "main",
+      "sourceType": "github",
+      "skillPath": "plugins/paypal/skills/typescript/typescript-integrate-paypal/SKILL.md",
+      "computedHash": "3b15b58f659e04a01c0c1e1397b01c272a474d05ec64309ee9db315e0b842c85"
+    },
+    "typescript-models": {
+      "source": "context-plugins/plugin-marketplace",
+      "ref": "main",
+      "sourceType": "github",
+      "skillPath": "plugins/paypal/skills/typescript/typescript-models/SKILL.md",
+      "computedHash": "ad616e73b7f62fe9e4717696dcd5c26835ca34d3840a97aa98a0a852afaadcc7"
+    },
+    "typescript-testing": {
+      "source": "context-plugins/plugin-marketplace",
+      "ref": "main",
+      "sourceType": "github",
+      "skillPath": "plugins/paypal/skills/typescript/typescript-testing/SKILL.md",
+      "computedHash": "1991847219790812011b27e46e6472f9957ecb50a4b89c078a533421034e6454"
+    }
+  }
+}

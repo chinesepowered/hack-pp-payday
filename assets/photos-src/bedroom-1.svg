@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="768" viewBox="0 0 1024 768">
+  <defs>
+    <pattern id="floor" width="160" height="36" patternUnits="userSpaceOnUse">
+      <rect width="160" height="36" fill="#C9A77C"/>
+      <path d="M0 0H160M0 18H160M50 0V18M120 18V36" stroke="#B08C62" stroke-width="2"/>
+    </pattern>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#BFE3F5"/><stop offset="1" stop-color="#EEF8FC"/>
+    </linearGradient>
+    <linearGradient id="duvet" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#E9EEF3"/>
+    </linearGradient>
+  </defs>
+  <rect width="1024" height="768" fill="#C9D6E2"/>
+  <rect y="560" width="1024" height="208" fill="url(#floor)"/>
+  <rect y="548" width="1024" height="14" fill="#F4F6F8"/>
+  <!-- window with curtains -->
+  <rect x="60" y="80" width="230" height="270" rx="4" fill="#FFFFFF"/>
+  <rect x="74" y="94" width="202" height="242" fill="url(#sky)"/>
+  <path d="M175 94V336M74 215H276" stroke="#FFFFFF" stroke-width="8"/>
+  <path d="M74 336 Q120 290 175 316 Q230 280 276 310V336Z" fill="#9CCB8F"/>
+  <path d="M30 66H320" stroke="#6B7C8C" stroke-width="7" stroke-linecap="round"/>
+  <path d="M40 70H96 Q104 300 82 470H44Z" fill="#F5E9D4"/>
+  <path d="M254 70H310V470H272 Q248 300 254 70Z" fill="#F5E9D4"/>
+  <path d="M60 74V466M80 74Q86 300 70 466M276 74Q268 300 286 466M296 74V466" stroke="#E2D2B6" stroke-width="3" fill="none"/>
+  <!-- framed abstract art above bed -->
+  <rect x="470" y="80" width="150" height="110" fill="#FFFFFF" stroke="#3B4A5A" stroke-width="5"/>
+  <circle cx="520" cy="140" r="26" fill="#E6A15C"/><path d="M482 178L550 120L608 178Z" fill="#5E86A8"/>
+  <!-- nightstand with lamp (left) -->
+  <rect x="300" y="440" width="110" height="110" rx="4" fill="#B88556"/>
+  <rect x="308" y="450" width="94" height="40" rx="3" fill="#C99866"/><rect x="308" y="496" width="94" height="46" rx="3" fill="#C99866"/>
+  <circle cx="355" cy="470" r="5" fill="#6B4A2E"/><circle cx="355" cy="519" r="5" fill="#6B4A2E"/>
+  <rect x="306" y="550" width="8" height="18" fill="#8A5F3A"/><rect x="396" y="550" width="8" height="18" fill="#8A5F3A"/>
+  <ellipse cx="355" cy="438" rx="24" ry="5" fill="#3B4A5A"/>
+  <rect x="351" y="380" width="8" height="58" fill="#3B4A5A"/>
+  <path d="M326 384L338 322H372L384 384Z" fill="#FFF3C9"/>
+  <rect x="380" y="424" width="24" height="14" rx="2" fill="#5E86A8"/>
+  <!-- bed: headboard -->
+  <rect x="424" y="290" width="400" height="230" rx="22" fill="#4C6A86"/>
+  <path d="M524 300V470M624 300V470M724 300V470" stroke="#3F5A74" stroke-width="3"/>
+  <!-- pillows -->
+  <rect x="446" y="386" width="170" height="80" rx="24" fill="#FFFFFF" stroke="#D5DCE3" stroke-width="3"/>
+  <rect x="632" y="386" width="170" height="80" rx="24" fill="#FFFFFF" stroke="#D5DCE3" stroke-width="3"/>
+  <rect x="500" y="414" width="100" height="58" rx="18" fill="#E6A15C"/>
+  <rect x="650" y="414" width="100" height="58" rx="18" fill="#5E86A8"/>
+  <!-- mattress and made duvet -->
+  <rect x="420" y="456" width="408" height="150" rx="14" fill="url(#duvet)" stroke="#D5DCE3" stroke-width="3"/>
+  <path d="M420 500H828" stroke="#D5DCE3" stroke-width="3"/>
+  <path d="M420 540H828V592 Q828 606 814 606H434 Q420 606 420 592Z" fill="#6F93B3"/>
+  <path d="M420 556H828" stroke="#86A8C6" stroke-width="5"/>
+  <rect x="430" y="606" width="388" height="26" fill="#3F5A74"/>
+  <rect x="440" y="632" width="14" height="24" fill="#2D3F50"/><rect x="794" y="632" width="14" height="24" fill="#2D3F50"/>
+  <!-- wardrobe (right) -->
+  <rect x="846" y="110" width="166" height="446" fill="#B88556"/>
+  <rect x="854" y="120" width="72" height="340" rx="3" fill="#C99866"/><rect x="932" y="120" width="72" height="340" rx="3" fill="#C99866"/>
+  <rect x="854" y="468" width="150" height="78" rx="3" fill="#C99866"/>
+  <rect x="914" y="270" width="6" height="50" rx="3" fill="#6B4A2E"/><rect x="938" y="270" width="6" height="50" rx="3" fill="#6B4A2E"/>
+  <rect x="904" y="504" width="50" height="6" rx="3" fill="#6B4A2E"/>
+  <rect x="852" y="556" width="10" height="14" fill="#8A5F3A"/><rect x="996" y="556" width="10" height="14" fill="#8A5F3A"/>
+  <!-- rug -->
+  <path d="M330 664H900L950 746H280Z" fill="#E9E1D3"/>
+  <path d="M348 676H882L918 734H312Z" fill="none" stroke="#6F93B3" stroke-width="4"/>
+  <!-- ceiling lamp -->
+  <path d="M624 0V30" stroke="#3B4A5A" stroke-width="3"/>
+  <path d="M590 58 Q624 14 658 58Z" fill="#FFFFFF" stroke="#D5DCE3" stroke-width="2"/>
+</svg>

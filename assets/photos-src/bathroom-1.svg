@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="768" viewBox="0 0 1024 768">
+  <defs>
+    <pattern id="tile" width="64" height="64" patternUnits="userSpaceOnUse">
+      <rect width="64" height="64" fill="#BFE0E2"/>
+      <rect x="2" y="2" width="60" height="60" fill="#D6EEEF"/>
+    </pattern>
+    <pattern id="floor" width="96" height="48" patternUnits="userSpaceOnUse">
+      <rect width="96" height="48" fill="#8FA3A8"/>
+      <rect x="2" y="2" width="92" height="44" fill="#A9BBC0"/>
+    </pattern>
+    <linearGradient id="mirror" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#EAF6FA"/><stop offset="1" stop-color="#B9D6E0"/>
+    </linearGradient>
+  </defs>
+  <rect width="1024" height="768" fill="#F4F8F8"/>
+  <rect y="200" width="1024" height="390" fill="url(#tile)"/>
+  <rect y="196" width="1024" height="8" fill="#7FB7BA"/>
+  <rect y="590" width="1024" height="178" fill="url(#floor)"/>
+  <!-- small frosted window -->
+  <rect x="150" y="40" width="170" height="130" rx="4" fill="#FFFFFF" stroke="#C8D4D6" stroke-width="3"/>
+  <rect x="162" y="52" width="146" height="106" fill="#DCEFF7"/>
+  <path d="M235 52V158" stroke="#FFFFFF" stroke-width="6"/>
+  <!-- shower rail, head and curtain -->
+  <path d="M20 96H470" stroke="#AEB8BF" stroke-width="6" stroke-linecap="round"/>
+  <path d="M60 110V230M60 110H110" fill="none" stroke="#AEB8BF" stroke-width="7" stroke-linecap="round"/>
+  <path d="M96 110H130L138 126H88Z" fill="#AEB8BF"/>
+  <path d="M370 96 H462 V540 Q450 548 440 540 Q428 548 416 540 Q404 548 392 540 Q380 548 370 540Z" fill="#F7FBFB" stroke="#CFE0E2" stroke-width="2"/>
+  <path d="M392 100V538M416 100V538M440 100V538" stroke="#DCEAEC" stroke-width="3"/>
+  <g fill="#7FB7BA"><circle cx="380" cy="96" r="5"/><circle cx="404" cy="96" r="5"/><circle cx="428" cy="96" r="5"/><circle cx="452" cy="96" r="5"/></g>
+  <!-- bathtub -->
+  <rect x="24" y="440" width="440" height="26" rx="13" fill="#FFFFFF" stroke="#CAD6D9" stroke-width="3"/>
+  <path d="M40 466H448V560 Q448 600 408 600H80 Q40 600 40 560Z" fill="#FFFFFF" stroke="#CAD6D9" stroke-width="3"/>
+  <path d="M60 480V570 Q60 584 80 584" fill="none" stroke="#E6EEF0" stroke-width="6" stroke-linecap="round"/>
+  <!-- tub tap -->
+  <path d="M100 440V408H132V420" fill="none" stroke="#AEB8BF" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="76" cy="428" r="8" fill="#AEB8BF"/><circle cx="154" cy="428" r="8" fill="#AEB8BF"/>
+  <!-- shampoo bottles on tub edge -->
+  <rect x="250" y="398" width="22" height="42" rx="5" fill="#F2A65A"/><rect x="256" y="386" width="10" height="14" fill="#FFFFFF"/>
+  <rect x="280" y="408" width="20" height="32" rx="5" fill="#5BA6A0"/><rect x="285" y="398" width="10" height="12" fill="#FFFFFF"/>
+  <!-- toilet -->
+  <rect x="520" y="330" width="130" height="150" rx="10" fill="#FFFFFF" stroke="#CAD6D9" stroke-width="3"/>
+  <rect x="514" y="322" width="142" height="16" rx="6" fill="#FFFFFF" stroke="#CAD6D9" stroke-width="3"/>
+  <rect x="572" y="314" width="26" height="8" rx="4" fill="#AEB8BF"/>
+  <path d="M530 480H640V500 Q640 546 585 546 Q530 546 530 500Z" fill="#FFFFFF" stroke="#CAD6D9" stroke-width="3"/>
+  <rect x="522" y="470" width="126" height="18" rx="9" fill="#FFFFFF" stroke="#CAD6D9" stroke-width="3"/>
+  <path d="M556 546H614L620 600H550Z" fill="#FFFFFF" stroke="#CAD6D9" stroke-width="3"/>
+  <!-- toilet roll holder -->
+  <rect x="672" y="410" width="44" height="6" rx="3" fill="#AEB8BF"/>
+  <rect x="678" y="402" width="32" height="34" rx="6" fill="#FFFFFF" stroke="#CAD6D9" stroke-width="2"/>
+  <circle cx="694" cy="412" r="5" fill="#D9C7B0"/>
+  <!-- mirror with light -->
+  <rect x="768" y="150" width="200" height="14" rx="7" fill="#FFF3C4"/>
+  <rect x="760" y="180" width="216" height="190" rx="8" fill="#FFFFFF" stroke="#AEB8BF" stroke-width="4"/>
+  <rect x="772" y="192" width="192" height="166" rx="4" fill="url(#mirror)"/>
+  <path d="M790 330L870 204M820 340L880 246" stroke="#FFFFFF" stroke-width="7" stroke-linecap="round" opacity="0.7"/>
+  <!-- sink vanity -->
+  <path d="M750 430H986V446 Q986 470 962 470H774 Q750 470 750 446Z" fill="#FFFFFF" stroke="#CAD6D9" stroke-width="3"/>
+  <rect x="764" y="470" width="208" height="126" fill="#3E6E78"/>
+  <rect x="772" y="480" width="94" height="108" rx="3" fill="#4F8590"/><rect x="870" y="480" width="94" height="108" rx="3" fill="#4F8590"/>
+  <circle cx="856" cy="534" r="5" fill="#E8EDF0"/><circle cx="880" cy="534" r="5" fill="#E8EDF0"/>
+  <path d="M868 430V400 Q868 384 886 384H900V394" fill="none" stroke="#AEB8BF" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- soap dispenser and toothbrush cup -->
+  <rect x="780" y="392" width="24" height="38" rx="6" fill="#F4C7D0"/><path d="M792 392V380H804" fill="none" stroke="#7E8A93" stroke-width="5"/>
+  <rect x="936" y="400" width="26" height="30" rx="4" fill="#FFFFFF" stroke="#CAD6D9" stroke-width="2"/>
+  <path d="M944 400L940 372M954 400L960 370" stroke="#5BA6A0" stroke-width="5" stroke-linecap="round"/>
+  <!-- towel rail with folded towels -->
+  <path d="M500 228H690" stroke="#AEB8BF" stroke-width="7" stroke-linecap="round"/>
+  <rect x="516" y="224" width="70" height="80" rx="4" fill="#3E8E96"/><rect x="516" y="286" width="70" height="8" fill="#2F7178"/>
+  <rect x="604" y="224" width="70" height="66" rx="4" fill="#FFFFFF" stroke="#CAD6D9" stroke-width="2"/><rect x="604" y="274" width="70" height="6" fill="#DCEAEC"/>
+  <!-- bath mat -->
+  <path d="M120 640H420L446 706H94Z" fill="#3E8E96"/>
+  <path d="M136 652H404L420 694H118Z" fill="none" stroke="#BFE0E2" stroke-width="4"/>
+  <!-- waste bin -->
+  <path d="M690 536H740L734 600H696Z" fill="#E8EDF0" stroke="#AEB8BF" stroke-width="3"/>
+</svg>
