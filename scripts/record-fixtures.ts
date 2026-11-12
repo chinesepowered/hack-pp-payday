@@ -4,15 +4,15 @@
 import './env';
 import { readPhoto } from '../lib/ai';
 import { runWith } from '../lib/context';
-import { loadState, runWatchdog, saveState } from '../lib/flows';
+import { mutate, runWatchdog } from '../lib/flows';
 import { PHOTO } from '../lib/seed-data';
 
 runWith({ sid: 'fixtures', mode: 'live', feature: 'Record fixtures' }, async () => {
   const photos = [...new Set(Object.values(PHOTO).flat())];
   for (const p of photos) console.log(p, (await readPhoto(p)).room);
-  const state = await loadState();
-  for (const a of state.anomalies) delete a.ai;
-  await saveState(state);
+  await mutate((state) => {
+    for (const a of state.anomalies) delete a.ai;
+  });
   for (let i = 0; i < 3; i++) {
     const anomalies = await runWatchdog();
     console.log(`explained ${anomalies.filter((a) => a.ai).length} of ${anomalies.length}`);

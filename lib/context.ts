@@ -2,7 +2,7 @@
 // feature triggered the PayPal calls, and the calls made so far (for the Under the hood drawer).
 
 import { AsyncLocalStorage } from 'node:async_hooks';
-import { getDoc, setDoc } from './store';
+import { updateDoc } from './store';
 import type { PayPalCall } from './types';
 
 export type Mode = 'live' | 'replay';
@@ -28,9 +28,10 @@ const MAX_CALLS = 400;
 export async function flushCalls(c: Ctx) {
   if (!c.calls.length) return;
   const key = `calls-${c.sid}`;
-  const existing = (await getDoc<PayPalCall[]>(key)) ?? [];
-  await setDoc(key, [...existing, ...c.calls].slice(-MAX_CALLS));
+  const mine = c.calls;
   c.calls = [];
+  // Appended to the latest log, so two requests of one session never drop each other's calls.
+  await updateDoc<PayPalCall[], void>(key, (existing) => ({ doc: [...(existing ?? []), ...mine].slice(-MAX_CALLS), result: undefined }));
 }
 
 export async function runWith<T>(init: Pick<Ctx, 'sid' | 'mode' | 'feature'>, fn: () => Promise<T>): Promise<T> {

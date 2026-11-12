@@ -20,13 +20,6 @@ The hosted demo is https://hack-pp-payday.vercel.app. Everything runs against th
 - The Payout auditor answers "Why did payouts spike on Tuesday?": it calls its tools, finds the batch that was sent
   twice and pins the proof widget onto the page.
 
-## Known gap
-
-The worker payout does not start on the hosted demo yet. `POST /api/jobs/{id}/submit` verifies the job, and the
-`POST /api/jobs/{id}/pay` call that follows answers `"Job is scheduled, not verified"`, with a job from an older
-copy of the state. The Blob store path reads through the blob's public URL and saves the whole state on every
-request, so one request can read or overwrite another's work. The flow works when run locally with the file store.
-
 ## Cancelling an unclaimed payout in the sandbox
 
 On Wed Nov 11 2026 every call to `POST /v1/payments/payouts-item/{id}/cancel` for an UNCLAIMED item of this sandbox

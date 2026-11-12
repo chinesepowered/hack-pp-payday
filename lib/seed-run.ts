@@ -2,7 +2,7 @@
 // second run re-reads statuses instead of paying again. Used by `pnpm seed` and the admin reset.
 
 import { setFeature } from './context';
-import { freshState, runWatchdog, saveState } from './flows';
+import { freshState, resetState, runWatchdog } from './flows';
 import { createCapturedOrder, createPayoutBatch, getPayoutBatch, type PayPalPayoutItem } from './paypal';
 import { buildSeedState, manualBatchPlan } from './seed-data';
 import { readSeedRecord, writeSeedRecord, type SeedItem, type SeedRecord } from './seed-live';
@@ -94,7 +94,7 @@ export async function ensureLiveSeed(log: (line: string) => void = () => {}): Pr
 export async function resetDemo(opts: { live: boolean; explain?: boolean }, log: (line: string) => void = () => {}) {
   if (opts.live) await ensureLiveSeed(log);
   const state = await freshState();
-  await saveState(state);
+  await resetState(state); // the one deliberate whole-state overwrite
   const anomalies = await runWatchdog({ explain: opts.explain !== false });
   return { state: { ...state, anomalies }, anomalies };
 }

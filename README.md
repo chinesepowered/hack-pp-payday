@@ -100,7 +100,11 @@ The flow, step by step:
    builds evidence widgets.
 
 State is JSON documents in `lib/store.ts` (files in `.data/` locally, Vercel Blob when `BLOB_READ_WRITE_TOKEN` is
-set). PayPal stays the source of truth for money: the store holds PayPal ids and the last status read from PayPal,
+set). Several requests run at once (a worker submitting, the desk polling, a webhook), so no request ever saves a
+whole state it loaded earlier: each change is applied to the latest copy and written only if nobody else wrote in
+between (`updateDoc` in `lib/store.ts`, `mutate` in `lib/flows.ts`). On Blob every save is a new immutable version
+file, which gives exact reads and an atomic compare-and-swap. A payout is reserved in the same atomic change that
+checks the rules, before PayPal is called, so two simultaneous pay requests cannot both pay a job. PayPal stays the source of truth for money: the store holds PayPal ids and the last status read from PayPal,
 and statuses are re-read by polling (and by webhooks when registered).
 
 ## Every PayPal API and feature used
@@ -247,7 +251,8 @@ are recorded in `seed/paypal-seed.json` and re-read instead of paid again. It cr
   everywhere), and today's schedule for the live demo.
 
 Other commands: `pnpm build`, `pnpm lint`, `pnpm test` (Vitest, the money rules and the watchdog),
-`pnpm paypal:webhook <public-url>`, `pnpm tsx scripts/smoke.ts` (the main flow from the command line).
+`pnpm paypal:webhook <public-url>`, `pnpm tsx scripts/smoke.ts` (the main flow from the command line),
+`node --env-file=.env.local scripts/flow-check.mjs 5` (the worker flow in a browser, five times, with a second tab polling).
 
 ## How to deploy
 
@@ -296,9 +301,6 @@ Built mobile-first and to WCAG 2.2 AA:
   `500 INTERNAL_SERVICE_ERROR` to `POST /v1/payments/payouts-item/{id}/cancel`. The app shows PayPal's answer with the
   debug id, changes nothing and offers a hold instead; the video shows this. Details and debug ids:
   [`docs/deploy.md`](docs/deploy.md).
-- **On the hosted demo the worker payout does not start yet.** After the photo check passes, the pay step reads an
-  older copy of the state from Vercel Blob and stops at "Job is scheduled, not verified". The dashboard, the payout
-  auditor and Replay work there, and the worker flow works when run locally. See [`docs/deploy.md`](docs/deploy.md).
 - **Transaction Search lags by up to 3 hours**, so reconciliation shows fresh payouts as "waiting".
 - **History is seeded.** The two weeks before today are imported records, labelled "Imported history"; only rows
   labelled "Live sandbox" are real PayPal sandbox payouts.
