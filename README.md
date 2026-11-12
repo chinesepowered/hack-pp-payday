@@ -4,8 +4,8 @@
 
 Built for the PayPal AI Hackathon. Sandbox only: no real money moves anywhere in this project.
 
-- Demo video: [`demo/video.mp4`](demo/video.mp4) (2:33)
-- Hosted demo: the URL is added at deploy time (see [How to deploy](#how-to-deploy))
+- **Live demo:** https://hack-pp-payday.vercel.app (PayPal sandbox; no login needed)
+- **Demo video:** https://youtu.be/NccbA07R24I (2:33). The same file is in [`demo/video.mp4`](demo/video.mp4)
 - Devpost text: [`docs/devpost.md`](docs/devpost.md)
 
 ![The operator's dashboard, with the Payout auditor explaining Tuesday's spike](docs/screenshots/11-auditor-spike.png)
@@ -295,7 +295,10 @@ Built mobile-first and to WCAG 2.2 AA:
 - **Cancelling an unclaimed item did not succeed in the sandbox on the build day.** PayPal answered
   `500 INTERNAL_SERVICE_ERROR` to `POST /v1/payments/payouts-item/{id}/cancel`. The app shows PayPal's answer with the
   debug id, changes nothing and offers a hold instead; the video shows this. Details and debug ids:
-  [`docs/needs-user.md`](docs/needs-user.md).
+  [`docs/deploy.md`](docs/deploy.md).
+- **On the hosted demo the worker payout does not start yet.** After the photo check passes, the pay step reads an
+  older copy of the state from Vercel Blob and stops at "Job is scheduled, not verified". The dashboard, the payout
+  auditor and Replay work there, and the worker flow works when run locally. See [`docs/deploy.md`](docs/deploy.md).
 - **Transaction Search lags by up to 3 hours**, so reconciliation shows fresh payouts as "waiting".
 - **History is seeded.** The two weeks before today are imported records, labelled "Imported history"; only rows
   labelled "Live sandbox" are real PayPal sandbox payouts.

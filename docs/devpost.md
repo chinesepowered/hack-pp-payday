@@ -124,3 +124,9 @@ OpenAI SDK, W&B Inference, Vercel, Vercel Blob, Vitest, Playwright, ffmpeg, Elev
   presets) and the custom Payout auditor agent that works alongside Studio's built-in agents.
 - **APIMatic.** The APIMatic-generated PayPal Server SDK for Orders, and the PayPal Context Plugin skills installed in
   the repo and used while building the integration.
+
+## Links
+
+- Hosted demo: https://hack-pp-payday.vercel.app
+- Video: https://youtu.be/NccbA07R24I
+- Repository: https://github.com/chinesepowered/hack-pp-payday
