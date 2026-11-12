@@ -19,6 +19,8 @@ The hosted demo is https://hack-pp-payday.vercel.app. Everything runs against th
 - The AG Studio dashboard renders with its custom widgets and layout presets.
 - The Payout auditor answers "Why did payouts spike on Tuesday?": it calls its tools, finds the batch that was sent
   twice and pins the proof widget onto the page.
+- The worker flow: a job is submitted, the photos are verified, and PayPal Payouts pays. On the hosted demo the
+  worker saw "Paid $86.00, 18 seconds after you finished", with the payout item id from PayPal.
 
 ## Cancelling an unclaimed payout in the sandbox
 
