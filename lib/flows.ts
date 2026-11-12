@@ -352,7 +352,7 @@ export async function runWatchdog(opts: { explain?: boolean } = {}): Promise<Ano
           1500,
         );
         const parsed = parseJson<{ summary?: string; message?: string }>(text);
-        const clean = (s?: string) => (s ?? '').replace(/[–—]/g, ', ').trim();
+        const clean = (s?: string) => (s ?? '').replace(/[\u2013\u2014]/g, ', ').trim();
         if (!parsed?.summary) return null;
         return { id: a.id, ai: { summary: clean(parsed.summary), message: clean(parsed.message), model } };
       } catch {
